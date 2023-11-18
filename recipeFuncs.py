@@ -1,8 +1,9 @@
 import pandas as pd
-import numpy as np
 
 pantry = {"ItemName": [], "ItemQty": [], "Units": []}
 pantry = pd.DataFrame(pantry)
+groceries = {"ItemName": [], "ItemQty": [], "Units": []}
+groceries = pd.DataFrame(groceries)
 privateRecipes = {"RecipeName": [], "Instructions": [], "Servings": [], "Description": [], "isPublic": []}
 privateRecipes = pd.DataFrame(privateRecipes)
 publicRecipes = {"RecipeName": [], "Instructions": [], "Servings": [], "Description": []}
@@ -178,7 +179,6 @@ def unitChange(recipeName):
             x = itemQty[i] * unitValsDict[itemUnits[i]]
             allIngMealPlan.at[i, "ItemQty"] = x
             allIngMealPlan.at[i, "Units"] = unitNameDict[itemUnits[i]]
-            print(itemUnits[i])
             if itemUnits[i] == "dsp" and x % 3 == 0:
                 x /= 3
                 allIngMealPlan.at[i, "Units"] = "Tbsp"
@@ -198,34 +198,54 @@ def removeRecipeFromMealPlan(recipeName):
 
 
 def groceryList():
-    # function does not work 
-    # update pantry section
-    # find all ingredients in pantry that match mealPlanIng
-    itemMP = list(allIngMealPlan.ItemName)
-    print(itemMP)
-    pantry["ItemName"] = pantry.ItemName.astype(str)
-    allIngMealPlan["ItemName"] = allIngMealPlan.ItemName.astype(str)
-    selection = (pantry.ItemName == allIngMealPlan.ItemName)
-    pantry.loc[selection, "ItemName"] = allIngMealPlan.loc[selection, "ItemName"]
-    # x = np.where(allIngPublic["ItemName"] == allIngMealPlan["ItemName"])
-    # print(x)
+    # need to add something to make sure all units in one type (US/UK)
+    groceries.drop(groceries.index, inplace=True)
+    for i in range(len(allIngMealPlan)):
+        itemName = allIngMealPlan.iat[i, 1]
+        pantryItem = pantry.loc[pantry["ItemName"] == itemName]
+        if (pantry.loc[pantry["ItemName"] == itemName]).all(1).any() and (pantryItem.Units.values == allIngMealPlan.iat[i, 3]):
+            update = pantry["ItemName"] == itemName
+            pantry.loc[update, "ItemQty"] = (pantry.loc[update, "ItemQty"]).values - allIngMealPlan.iat[i, 2]
+        else:
+            notInPantry = allIngMealPlan.iloc[i]
+            x = (groceries["ItemName"] == itemName)
+            y = (groceries["Units"] == notInPantry.iloc[3])
+            if ((groceries.loc[y]).all(1).any() == True) & ((groceries.loc[x]).all(1).any() == True):
+                groceries.loc[(y & x), "ItemQty"] = groceries.loc[(y & x), "ItemQty"].values + notInPantry.iloc[2]
+            else:
+                groceries.loc[-1] = [notInPantry.iloc[1], notInPantry.iloc[2], notInPantry.iloc[3]]
+                groceries.index = groceries.index + 1
+    addIng = pantry.loc[pantry["ItemQty"] < 0]
+    pd.options.mode.copy_on_write = True
+    addIng["ItemQty"] = addIng["ItemQty"].abs()
+    x = list(pantry.loc[pantry["ItemQty"] == 0, "ItemName"])
+    pantry.drop(pantry[(pantry["ItemQty"] <= 0)].index, inplace=True)
+    for i in range(len(addIng)):
+        groceries.loc[-1] = [addIng.iat[i, 0], addIng.iat[i, 1], addIng.iat[i, 2]]
+        groceries.index = groceries.index + 1
+    viewAll(groceries)
+    viewAll(pantry)
+    print(x)  # list of pantry ing == 0
 
 
-"""Testing grocery list -- totally broke"""
+"""Testing grocery list -- somewhat broke"""
 addPantryItem("cheese", 1, "oz (dry)")
 addPantryItem("bread", 4, "slice")
 addPantryItem("butter", 2, "Tbsp")
-addPantryItem("eggs", 6, "each")
+addPantryItem("eggs", 2, "each")
+addPantryItem("coffee beans", 1, "oz (dry)")
 addPrivateRecipe("omelette", "make the food", 3, "its good", False)
-addPrivateRecipe("Grilled cheese", "make the food", 3, "its good", True)
-addRecipeIng("omelette", ["eggs", "cheese"], [2, 1], ["each", "oz(dry)"])
+addPrivateRecipe("Grilled cheese", "make the food", 1, "its good", True)
+addRecipeIng("omelette", ["eggs", "cheese", "tomato"], [2, 4, 1], ["each", "oz (dry)", "each"])
 addRecipeIng("Grilled cheese", ["bread", "cheese", "butter", "tomato"], [2, 4, 1, 1],
-             ["Slice", "oz (dry)", "Tbsp", "each"])
+             ["slice", "oz (dry)", "Tbsp", "each"])
 addRecipeToMealPlan(privateRecipes, allIngPrivate, "omelette")
 addRecipeToMealPlan(publicRecipes, allIngPublic, "Grilled cheese")
-changeServings("Grilled cheese", 6)
-unitChange("Grilled cheese")
-# groceryList()
+changeServings("Grilled cheese", 2)
+# viewAll(allIngMealPlan)
+# unitChange("Grilled cheese")
+# viewAll(pantry)
+groceryList()
 
 
 """Testing all pantry functions"""
