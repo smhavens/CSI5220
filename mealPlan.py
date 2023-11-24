@@ -8,6 +8,12 @@ class Ui_MainWindow(object):
         MainWindow.setWindowIcon(QtGui.QIcon('chef.png'))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
 
+        import shoppingList
+        self.shoppingListWindow = QtWidgets.QMainWindow()
+        self.shoppingListUI = shoppingList.Ui_MainWindow()
+        self.shoppingListUI.setupUiShoppingList(self.shoppingListWindow)
+        self.shoppingListWindow.hide()
+
         self.frame = QtWidgets.QFrame(self.centralwidget)
         self.frame.setGeometry(QtCore.QRect(20, 20, 751, 441))
         self.frame.setStyleSheet("background-color: white;")
@@ -69,6 +75,11 @@ class Ui_MainWindow(object):
         self.submit.setStyleSheet("background-color: #61d800;")
         self.submit.setFont(font)
 
+        self.shopping = QtWidgets.QPushButton(self.frame, clicked=self.viewShoppingList)
+        self.shopping.setGeometry(QtCore.QRect(370, 370, 161, 51))
+        self.shopping.setStyleSheet("background-color: #61d800;")
+        self.shopping.setFont(font)
+
         self.label3 = QtWidgets.QLabel(self.frame)
         self.label3.setGeometry(QtCore.QRect(50, 250, 311, 41))
         self.label3.setFont(font)
@@ -82,6 +93,10 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    def viewShoppingList(self):
+        self.shoppingListUI.setupUiShoppingList(self.shoppingListWindow)
+        self.shoppingListWindow.show()
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/ Meal Plan"))
@@ -90,17 +105,10 @@ class Ui_MainWindow(object):
         self.metricRB.setText(_translate("MainWindow", "Metric"))
         self.imperialRB.setText(_translate("MainWindow", "Imperial"))
         self.label2.setText(_translate("MainWindow", "Recipe Name:"))
-        self.textEditName.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Enter Name:</p></body></html>"))
-        self.textEditSev.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Enter Serving Size:</p></body></html>"))
+        self.textEditName.setHtml(_translate("MainWindow", ""))
+        self.textEditSev.setHtml(_translate("MainWindow", ""))
         self.submit.setText(_translate("MainWindow", "Submit"))
+        self.shopping.setText(_translate("MainWindow", "Shopping List"))
         self.label3.setText(_translate("MainWindow", "Desired Serving Size: "))
         self.label4.setText(_translate("MainWindow", "Desired Units: "))
 

@@ -1,4 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
+import recipeFuncs as rf
 
 
 class Ui_MainWindow(object):
@@ -38,14 +40,13 @@ class Ui_MainWindow(object):
         self.textEdit.setGeometry(QtCore.QRect(370, 130, 301, 41))
         self.textEdit.setFont(font)
 
-        self.submit = QtWidgets.QPushButton(self.frame)
+        self.submit = QtWidgets.QPushButton(self.frame, clicked=self.submitxxxx)
         self.submit.setGeometry(QtCore.QRect(570, 250, 161, 51))
         self.submit.setStyleSheet("background-color: #61d800;")
         self.submit.setFont(font)
 
         self.comboBox = QtWidgets.QComboBox(self.frame)
         self.comboBox.setGeometry(QtCore.QRect(50, 190, 141, 41))
-        self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
@@ -60,27 +61,25 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    def submitxxxx(self):
+        self.msg = QMessageBox()
+        self.msg.setIcon(QMessageBox.Information)
+        self.msg.setWindowIcon(QtGui.QIcon('chef.png'))
+        self.msg.setWindowTitle("Pantry Item Removed")
+        self.msg.show()
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/Recipe Library/ Modify"))
         self.titleLabel.setText(_translate("MainWindow", "Modify a Recipe"))
         self.recipeName.setText(_translate("MainWindow", "Recipe Name:"))
-        self.textEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Enter Name:</p></body></html>"))
+        self.textEdit.setHtml(_translate("MainWindow", ""))
         self.submit.setText(_translate("MainWindow", "Submit"))
-        self.comboBox.setItemText(0, _translate("MainWindow", "xx1"))
-        self.comboBox.setItemText(1, _translate("MainWindow", "xx2"))
-        self.comboBox.setItemText(2, _translate("MainWindow", "xx3"))
-        self.comboBox.setItemText(3, _translate("MainWindow", "xx4"))
-        self.comboBox.setItemText(4, _translate("MainWindow", "xx5"))
-        self.newVal.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Enter New Value:</p></body></html>"))
+        self.comboBox.setItemText(0, _translate("MainWindow", "RecipeName"))
+        self.comboBox.setItemText(1, _translate("MainWindow", "Instructions"))
+        self.comboBox.setItemText(2, _translate("MainWindow", "Servings"))
+        self.comboBox.setItemText(3, _translate("MainWindow", "Description"))
+        self.newVal.setHtml(_translate("MainWindow", ""))
 
 
 if __name__ == "__main__":

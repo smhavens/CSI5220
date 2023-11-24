@@ -78,7 +78,7 @@ def changePantryUnitType(itemName):
         x = pantry.loc[update, "Units"].values.tolist()
         pantry.loc[update, "ItemQty"] = pantry.loc[update, "ItemQty"] * unitValsDict[x[0]]
         pantry.loc[update, "Units"] = unitNameDict[x[0]]
-    if currentType == "Metric":
+    elif currentType == "Metric":
         update = pantry["ItemName"] == itemName
         pantry.loc[update, "UnitType"] = "Imperial"
         x = pantry.loc[update, "Units"].values.tolist()
@@ -94,6 +94,8 @@ def changePantryUnitType(itemName):
             y[0] /= 8
             pantry.loc[update, "ItemQty"] = y[0]
             pantry.loc[update, "Units"] = "cups (liquid)"
+    else:
+        print("no change made")
 
 
 '''public/private recipe functions'''  # finished :)
@@ -141,18 +143,16 @@ def updateRecipe(type, recipeName, newValue):
 '''recipe Ingredients'''  # Finished :)
 
 
-def addRecipeIng(recipeName, foodList, qtyList, unitsList, unitsTypeList):
+def addRecipeIng(recipeName, food, qty, units, unitsType):
     allIngPrivate.reset_index(drop=True, inplace=True)
     allIngPublic.reset_index(drop=True, inplace=True)
-    for i in range(len(foodList)):
-        allIngPrivate.loc[-1] = [recipeName, foodList[i], qtyList[i], unitsList[i], unitsTypeList[i]]
-        allIngPrivate.index = allIngPrivate.index + 1
+    allIngPrivate.loc[-1] = [recipeName, food, qty, units, unitsType]
+    allIngPrivate.index = allIngPrivate.index + 1
     if (
             privateRecipes[
                 (privateRecipes["RecipeName"] == recipeName) & (privateRecipes["isPublic"] == True)]).empty == False:
-        for i in range(len(foodList)):
-            allIngPublic.loc[-1] = [recipeName, foodList[i], qtyList[i], unitsList[i], unitsTypeList[i]]
-            allIngPublic.index = allIngPublic.index + 1
+        allIngPublic.loc[-1] = [recipeName, food, qty, units, unitsType]
+        allIngPublic.index = allIngPublic.index + 1
 
 
 def removeRecipeIng(recipeName, itemName):
@@ -299,6 +299,11 @@ def groceryList():
     print(x)  # list of pantry ing == 0
 
 
+def xx(recipeName):
+    if (privateRecipes.loc[privateRecipes["RecipeName"] == recipeName]).all(1).any():
+        print("Yes")
+
+
 """Testing all pantry functions"""
 addPantryItem("cheese", 1, "oz (dry)", "Imperial")
 addPantryItem("bread", 4, "Slice", "Other")
@@ -310,10 +315,10 @@ updatePantry("ItemQty", "cheese", 4)
 # viewAll(pantry)
 
 """Testing all recipe functions"""
-# addPrivateRecipe("caprice salad", "make the food", 3, "its good", True)
-# addPrivateRecipe("omelette", "make the food", 3, "its good", False)
-# addPrivateRecipe("Grilled cheese", "make the food", 3, "its good", True)
-# addPrivateRecipe("soup", "make the food", 3, "its good", True)
+addPrivateRecipe("caprice salad", "make the food", 3, "its good", True)
+addPrivateRecipe("omelette", "make the food", 3, "its good", False)
+addPrivateRecipe("Grilled cheese", "make the food", 3, "its good", True)
+addPrivateRecipe("soup", "make the food", 3, "its good", True)
 # viewAll(privateRecipes)
 # viewAll(publicRecipes)
 # searchRecipesByName(privateRecipes, "omelette")
@@ -347,35 +352,37 @@ updatePantry("ItemQty", "cheese", 4)
 
 
 """Searching recipes by ingredient"""
-# addPrivateRecipe("Grilled cheese", "make the food", 3, "its good", True)
-# addPrivateRecipe("cheese", "eat the food", 3, "its good", False)
-# addRecipeIng("Grilled cheese", ["bread", "cheese", "butter", "tomato"], [2, 4, 1, 1],
-#              ["Slice", "oz(dry)", "Tbl", "each"], ["Other", "Imperial", "Imperial", "Other"])
-# addRecipeIng("cheese", ["cheese"], [2], ["oz(dry)"], ["Imperial"])
+addPrivateRecipe("Grilled cheese", "make the food", 3, "its good", True)
+addPrivateRecipe("cheese", "eat the food", 3, "its good", False)
+addRecipeIng("Grilled cheese", "bread", 2, "Slice", "Other")
+addRecipeIng("Grilled cheese", "butter", 1, "Tbsp", "Imperial")
+addRecipeIng("Grilled cheese", "tomato", 1, "Each", "Other")
+addRecipeIng("cheese", "cheese", 2, "oz(dry)", "Imperial")
 # viewAll(allIngPrivate)
 # viewAll(allIngPublic)
-# searchByIngName(allIngPrivate, "cheese")
-# searchByIngName(allIngPublic, "cheese")
+searchByIngName(allIngPrivate, "cheese")
+searchByIngName(allIngPublic, "cheese")
+x = allIngPrivate["RecipeName"].tolist()
+print(x)
 
 
 """Testing all build plan functions"""
-addPrivateRecipe("omelette", "make the food", 3, "its good", False)
-addPrivateRecipe("Grilled cheese", "make the food", 3, "its good", True)
-addRecipeIng("omelette", ["eggs", "cheese"], [2, 1], ["each", "oz (dry)"], ["Other", "Imperial"])
-addRecipeIng("Grilled cheese", ["bread", "cheese", "butter", "tomato"], [2, 4, 1, 1],
-             ["slice", "oz (dry)", "Tbsp", "each"], ["Other", "Imperial", "Imperial", "Other"])
-addRecipeToMealPlan(privateRecipes, allIngPrivate, "omelette")
-addRecipeToMealPlan(publicRecipes, allIngPublic, "Grilled cheese")
+# addPrivateRecipe("omelette", "make the food", 3, "its good", False)
+# addPrivateRecipe("Grilled cheese", "make the food", 3, "its good", True)
+# addRecipeIng("omelette", ["eggs", "cheese"], [2, 1], ["each", "oz (dry)"], ["Other", "Imperial"])
 # addRecipeToMealPlan(privateRecipes, allIngPrivate, "omelette")
-viewAll(allIngMealPlan)
-viewAll(mealPlan)
-changeServings("Grilled cheese", 6)
-unitChange("Grilled cheese", "Metric")
-print("start")
+# addRecipeToMealPlan(publicRecipes, allIngPublic, "Grilled cheese")
+# # addRecipeToMealPlan(privateRecipes, allIngPrivate, "omelette")
 # viewAll(allIngMealPlan)
-# clearMealPlan()
 # viewAll(mealPlan)
-# removeRecipeFromMealPlan("omelette")
-# viewAll(mealPlan)
-# viewAll(allIngMealPlan)
-groceryList()
+# changeServings("Grilled cheese", 6)
+# unitChange("Grilled cheese", "Metric")
+# print("start")
+# # viewAll(allIngMealPlan)
+# # clearMealPlan()
+# # viewAll(mealPlan)
+# # removeRecipeFromMealPlan("omelette")
+# # viewAll(mealPlan)
+# # viewAll(allIngMealPlan)
+# groceryList()
+

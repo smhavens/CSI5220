@@ -1,4 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
+import recipeFuncs as rf
 
 
 class Ui_MainWindow(object):
@@ -38,7 +40,7 @@ class Ui_MainWindow(object):
         self.textEdit.setGeometry(QtCore.QRect(370, 130, 301, 41))
         self.textEdit.setFont(font)
 
-        self.submit = QtWidgets.QPushButton(self.frame)
+        self.submit = QtWidgets.QPushButton(self.frame, clicked=self.submitPantryMod)
         self.submit.setGeometry(QtCore.QRect(570, 250, 161, 51))
         self.submit.setStyleSheet("background-color: #61d800;")
         self.submit.setFont(font)
@@ -48,39 +50,59 @@ class Ui_MainWindow(object):
         self.comboBox.addItem("")
         self.comboBox.addItem("")
         self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
         self.comboBox.setFont(font)
 
         self.newVal = QtWidgets.QTextEdit(self.frame)
         self.newVal.setGeometry(QtCore.QRect(370, 190, 301, 41))
+        self.newVal.setFont(font)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    def submitPantryMod(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setWindowIcon(QtGui.QIcon('chef.png'))
+        msg.setWindowTitle("Remove Pantry Item Info")
+        pantryItem = self.textEdit.toPlainText()
+        newValue = self.newVal.toPlainText()
+        listedType = self.comboBox.currentText()
+        x = rf.pantry.loc[rf.pantry["ItemName"] == pantryItem].all(1).any()
+        if (x == True) and (listedType == "Item Name"):
+            rf.updatePantry("ItemName", pantryItem, newValue)
+            msg.setText("The item name for the pantry item \"" + pantryItem + "\" has been changed to " +
+                        newValue + ".")
+        elif (x == True) and (listedType == "Item Quantity"):
+            if newValue.isnumeric():
+                rf.updatePantry("ItemQty", pantryItem, newValue)
+                msg.setText("The item quantity for the pantry item \"" + pantryItem + "\" has been changed to " +
+                        newValue + ".")
+            else:
+                msg.setText("The item quantity you entered was not valid. Please enter a number.")
+        elif (x == True) and (listedType == "Units"):
+            rf.updatePantry("ItemName", pantryItem, newValue)
+            msg.setText("The item name for the pantry item \"" + pantryItem + "\" has been changed to \"" +
+                        newValue + "\".\nPlease note that the only units that will be available to convert to "
+                                   "imperial or metric units are:\n\t1. oz (liquid)\n\t2. oz (dry)\n\t3. cups (liquid)"
+                                   "\n\t4. Tbsp\n\t5. tsp\n\t6. mL\n\t7. g\n\t8. dsp")
+        else:
+            msg.setText("The pantry item you entered was not found.")
+        msg.exec_()
+
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/Personal Pantry/ Modify"))
         self.titleLabel.setText(_translate("MainWindow", "Modify a Pantry Item"))
         self.recipeName.setText(_translate("MainWindow", "Pantry Item Name:"))
-        self.textEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Enter Item Name:</p></body></html>"))
+        self.textEdit.setHtml(_translate("MainWindow", ""))
         self.submit.setText(_translate("MainWindow", "Submit"))
-        self.comboBox.setItemText(0, _translate("MainWindow", "xx1"))
-        self.comboBox.setItemText(1, _translate("MainWindow", "xx2"))
-        self.comboBox.setItemText(2, _translate("MainWindow", "xx3"))
-        self.comboBox.setItemText(3, _translate("MainWindow", "xx4"))
-        self.comboBox.setItemText(4, _translate("MainWindow", "xx5"))
-        self.newVal.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Enter New Value:</p></body></html>"))
+        self.comboBox.setItemText(0, _translate("MainWindow", "Item Name"))
+        self.comboBox.setItemText(1, _translate("MainWindow", "Item Quantity"))
+        self.comboBox.setItemText(2, _translate("MainWindow", "Units"))
+        self.newVal.setHtml(_translate("MainWindow", ""))
 
 
 if __name__ == "__main__":

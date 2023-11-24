@@ -1,4 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
+import recipeFuncs as rf
 
 
 class Ui_MainWindow(object):
@@ -38,7 +40,7 @@ class Ui_MainWindow(object):
         self.textEdit.setGeometry(QtCore.QRect(370, 130, 301, 41))
         self.textEdit.setFont(font)
 
-        self.submit = QtWidgets.QPushButton(self.frame)
+        self.submit = QtWidgets.QPushButton(self.frame, clicked=self.submitRemoveRecipe)
         self.submit.setGeometry(QtCore.QRect(570, 250, 161, 51))
         self.submit.setStyleSheet("background-color: #61d800;")
         self.submit.setFont(font)
@@ -47,13 +49,14 @@ class Ui_MainWindow(object):
         self.recipeLib.setGeometry(QtCore.QRect(50, 200, 311, 41))
         self.recipeLib.setFont(font)
 
-        self.privateCB = QtWidgets.QCheckBox(self.frame)
+        self.privateCB = QtWidgets.QRadioButton(self.frame)
         font.setPointSize(8)
         font.setBold(False)
         self.privateCB.setGeometry(QtCore.QRect(370, 200, 121, 41))
+        self.privateCB.setChecked(True)
         self.privateCB.setFont(font)
 
-        self.publicCB = QtWidgets.QCheckBox(self.frame)
+        self.publicCB = QtWidgets.QRadioButton(self.frame)
         self.publicCB.setGeometry(QtCore.QRect(530, 200, 141, 41))
         self.publicCB.setFont(font)
 
@@ -62,16 +65,31 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    def submitRemoveRecipe(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setWindowIcon(QtGui.QIcon('chef.png'))
+        msg.setWindowTitle("Remove Recipe Info")
+        recipeName = self.textEdit.toPlainText()
+        x = self.privateCB.isChecked()
+        y = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all(1).any()
+        if (x == True) and (y == True):
+            rf.removePublicRecipe(recipeName)
+            msg.setText("The recipe \"" + recipeName + "\" has been removed from your Private Library "
+                                                       "and the Public Community Library.")
+        elif (x == False) and (y == True):
+            rf.removePublicRecipe(recipeName)
+            msg.setText("The recipe \"" + recipeName + "\" has been removed from the public Community Library.")
+        else:
+            msg.setText("The recipe name you entered was not found in the library specified.")
+        msg.exec_()
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/Recipe Library/ Remove"))
         self.titleLabel.setText(_translate("MainWindow", "Remove a Recipe"))
         self.recipeName.setText(_translate("MainWindow", "Recipe Name:"))
-        self.textEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Enter Name:</p></body></html>"))
+        self.textEdit.setHtml(_translate("MainWindow", ""))
         self.submit.setText(_translate("MainWindow", "Submit"))
         self.recipeLib.setText(_translate("MainWindow", "Recipe Library:"))
         self.privateCB.setText(_translate("MainWindow", "Private Library"))

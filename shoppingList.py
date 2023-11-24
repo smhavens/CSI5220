@@ -1,12 +1,10 @@
-import pandas
 from PyQt5 import QtCore, QtGui, QtWidgets
 import recipeFuncs as rf
-import sys
 from PyQt5.QtWidgets import *
 
 
 class Ui_MainWindow(object):
-    def setupUiBrowsePantry(self, MainWindow):
+    def setupUiShoppingList(self, MainWindow):
         MainWindow.resize(793, 365)
         MainWindow.setStyleSheet("background-color: #123456;")
         MainWindow.setWindowIcon(QtGui.QIcon('chef.png'))
@@ -51,16 +49,16 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setFont(font)
         self.tableWidget.setHorizontalHeaderItem(3, item)
-        self.tableWidget.setRowCount(len(rf.pantry.index)-1)
+        self.tableWidget.setRowCount(len(rf.groceries.index)-1)
 
         rowPosition = self.tableWidget.rowCount()
         self.tableWidget.insertRow(rowPosition)
-        print(len(rf.pantry.index))
-        for i in range(len(rf.pantry.index)):
-            x = rf.pantry.iloc[i].tolist()
+        print(len(rf.groceries.index))
+        for i in range(len(rf.groceries.index)):
+            x = rf.groceries.iloc[i].tolist()
             self.tableWidget.setItem(i, 0, QTableWidgetItem(x[0]))
-            self.tableWidget.setItem(i, 1, QTableWidgetItem(str(x[1])))
-            self.tableWidget.setItem(i, 2, QTableWidgetItem(x[2]))
+            self.tableWidget.setItem(i, 1, QTableWidgetItem(x[1]))
+            self.tableWidget.setItem(i, 2, QTableWidgetItem(str(x[2])))
             self.tableWidget.setItem(i, 3, QTableWidgetItem(x[3]))
 
 
@@ -72,16 +70,16 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/Personal Pantry/ Browse"))
-        self.titleLabel.setText(_translate("MainWindow", "Browse Pantry"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/Meal Plan/ Shopping List"))
+        self.titleLabel.setText(_translate("MainWindow", "Shopping List"))
         item = self.tableWidget.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "Item Name"))
+        item.setText(_translate("MainWindow", "Recipe Name"))
         item = self.tableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "Item Qty"))
+        item.setText(_translate("MainWindow", "Instructions"))
         item = self.tableWidget.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Units"))
+        item.setText(_translate("MainWindow", "Servings"))
         item = self.tableWidget.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "Unit Type"))
+        item.setText(_translate("MainWindow", "Description"))
 
 
 if __name__ == "__main__":
@@ -89,7 +87,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
-    ui.setupUiBrowsePantry(MainWindow)
+    ui.setupUiShoppingList(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
 

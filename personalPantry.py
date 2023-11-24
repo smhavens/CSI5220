@@ -26,6 +26,12 @@ class Ui_MainWindow(object):
         self.browsePantryUI.setupUiBrowsePantry(self.browsePantryWindow)
         self.browsePantryWindow.hide()
 
+        import modifyPantry
+        self.modifyPantryWindow = QtWidgets.QMainWindow()
+        self.modifyPantryUI = modifyPantry.Ui_MainWindow()
+        self.modifyPantryUI.setupUiModifyPantry(self.modifyPantryWindow)
+        self.modifyPantryWindow.hide()
+
         self.frame = QtWidgets.QFrame(self.centralwidget)
         self.frame.setGeometry(QtCore.QRect(20, 20, 751, 311))
         self.frame.setStyleSheet("background-color: white;")
@@ -61,7 +67,7 @@ class Ui_MainWindow(object):
         self.remove.setStyleSheet("background-color: #FFFFFF;")
         self.remove.setFont(font)
 
-        self.modify = QtWidgets.QPushButton(self.frame)
+        self.modify = QtWidgets.QPushButton(self.frame, clicked=self.modify)
         self.modify.setGeometry(QtCore.QRect(80, 210, 251, 71))
         self.modify.setStyleSheet("background-color: #FFFFFF;")
         self.modify.setFont(font)
@@ -82,6 +88,10 @@ class Ui_MainWindow(object):
     def remove(self):
         self.removePantryUI.setupUiRemovePantry(self.removePantryWindow)
         self.removePantryWindow.show()
+
+    def modify(self):
+        self.modifyPantryUI.setupUiModifyPantry(self.modifyPantryWindow)
+        self.modifyPantryWindow.show()
 
     def browse(self):
         self.browsePantryUI.setupUiBrowsePantry(self.browsePantryWindow)
