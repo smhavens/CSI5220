@@ -1,5 +1,34 @@
 import pandas as pd
 
+class ItemList:
+    def __init__(self, items, quantity, units, unitType):
+        self.ItemName = items
+        self.ItemQty = quantity
+        self.Units = units
+        self.UnitType = units
+        
+class Recipes:
+    def __init__(self, names, inst, serving, desc):
+        self.RecipeName = names
+        self.Instructions = inst
+        self.Servings = serving
+        self.Description = desc
+        
+class PrivateRecipes:
+    def __init__(self, recipes, instructions, servings, desc, isPublic):
+        self.RecipeName = recipes
+        self.Instructions = instructions
+        self.Servings = servings
+        self.Description = desc
+        self.isPublic = isPublic        
+        
+class AllIng:
+    def __init__(self, items, quantity, units, unitType):
+        self.ItemName = items
+        self.ItemQty = quantity
+        self.Units = units
+        self.UnitType = units
+        
 pantry = {"ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
 pantry = pd.DataFrame(pantry)
 groceries = {"ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
