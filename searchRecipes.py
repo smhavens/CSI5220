@@ -1,4 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
+import recipeFuncs as rf
 
 
 class Ui_MainWindow(object):
@@ -7,6 +9,20 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         MainWindow.setStyleSheet("background-color: #123456;")
         MainWindow.setWindowIcon(QtGui.QIcon('chef.png'))
+
+        import browsePubIng
+        temp = rf.allIngPrivate
+        self.ingWindow = QtWidgets.QMainWindow()
+        self.ingUI = browsePubIng.Ui_MainWindow()
+        self.ingUI.setupUiBrowsePrivPub(self.ingWindow, temp)
+        self.ingWindow.hide()
+
+        import seachRecipeName
+        temp2 = rf.allIngPrivate
+        self.searchWindow = QtWidgets.QMainWindow()
+        self.searchUI = seachRecipeName.Ui_MainWindow()
+        self.searchUI.setupUiSearchRecipeName(self.searchWindow, temp)
+        self.searchWindow.hide()
 
         self.frame = QtWidgets.QFrame(self.centralwidget)
         self.frame.setStyleSheet("background-color: white;")
@@ -55,6 +71,7 @@ class Ui_MainWindow(object):
         self.privLib = QtWidgets.QRadioButton(self.frame)
         self.privLib.setGeometry(QtCore.QRect(120, 160, 141, 41))
         self.privLib.setFont(font)
+        self.privLib.setChecked(True)
         self.comLib = QtWidgets.QRadioButton(self.frame)
         self.comLib.setGeometry(QtCore.QRect(480, 160, 150, 41))
         self.comLib.setFont(font)
@@ -76,7 +93,7 @@ class Ui_MainWindow(object):
         font.setPointSize(9)
         self.textEditIng.setFont(font)
 
-        self.submit = QtWidgets.QPushButton(self.frame)
+        self.submit = QtWidgets.QPushButton(self.frame, clicked=self.submitSearch)
         self.submit.setGeometry(QtCore.QRect(570, 340, 161, 51))
         self.submit.setStyleSheet("background-color: #61d800;")
         self.submit.setFont(font)
@@ -85,6 +102,32 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def submitSearch(self):
+        isPriv = self.privLib.isChecked()
+        searchBy = self.comboBox.currentText()
+        typeName = self.textEditIng.toPlainText()
+        if (isPriv == True) & (searchBy == "Recipe Name"):
+            temp2 = rf.searchRecipesByName(rf.privateRecipes, typeName)
+            rf.viewAll(temp2)
+            self.searchUI.setupUiSearchRecipeName(self.searchWindow, temp2)
+            self.searchWindow.show()
+
+        elif (isPriv == True) & (searchBy == "Ingredient Name"):
+            temp = rf.searchByIngName(rf.allIngPrivate, typeName)
+            self.ingUI.setupUiBrowsePrivPub(self.ingWindow, temp)
+            self.ingWindow.show()
+        elif (isPriv == False) & (searchBy == "Recipe Name"):
+            temp = rf.searchRecipesByName(rf.publicRecipes, typeName)
+            self.searchUI.setupUiSearchRecipeName(self.searchWindow, temp)
+            self.searchWindow.show()
+        else:
+            temp = rf.searchByIngName(rf.allIngPublic, typeName)
+            self.ingUI.setupUiBrowsePrivPub(self.ingWindow, temp)
+            self.ingWindow.show()
+
+
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

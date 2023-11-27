@@ -108,14 +108,14 @@ class Ui_MainWindow(object):
         itemUnits = self.enterUnits.toPlainText()
         isMetric = self.metric.isChecked()
         isImperial = self.imperial.isChecked()
-        x = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all(1).any()
+        x = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all().any()
         if (x == True):
             if (itemQty.isnumeric()):
                 if (isImperial == True):
                     if (itemUnits in validImperial):
                         rf.addRecipeIng(recipeName, itemName, itemQty, itemUnits, "Imperial")
                         msg.setText("The ingredient \"" + itemName + "\" has been added to your recipe \""
-                                    + itemName + "\" with the quantity \"" + str(itemQty) + " " + itemUnits + ".")
+                                    + recipeName + "\" with the quantity \"" + str(itemQty) + " " + itemUnits + "\".")
                     else:
                         msg.setText("The units you entered are not in our supported list of valid imperial units. "
                                     "Please convert this item to one of the following unit measurements:"
@@ -125,7 +125,7 @@ class Ui_MainWindow(object):
                     if (itemUnits in validMetric):
                         rf.addRecipeIng(recipeName, itemName, itemQty, itemUnits, "Metric")
                         msg.setText("The ingredient \"" + itemName + "\" has been added to your recipe \""
-                                    + itemName + "\" with the quantity \"" + str(itemQty) + " " + itemUnits + ".")
+                                    + recipeName + "\" with the quantity \"" + str(itemQty) + " " + itemUnits + "\".")
                     else:
                         msg.setText("The units you entered are not in our supported list of valid metric units. "
                                     "Please convert this item to one of the following unit measurements:"
@@ -133,8 +133,8 @@ class Ui_MainWindow(object):
                 else:
                     rf.addRecipeIng(recipeName, itemName, itemQty, itemUnits, "Other")
                     msg.setText("The ingredient \"" + itemName + "\" has been added to your recipe \""
-                                + itemName + "\" with the quantity \"" + str(itemQty) + " " + itemUnits +
-                                ".\n Please note that this item will not be affected if you decide to "
+                                + recipeName + "\" with the quantity \"" + str(itemQty) + " " + itemUnits +
+                                "\".\n Please note that this item will not be affected if you decide to "
                                 "convert the recipe to either metric or imperial units.")
             else:
                 msg.setText("The ingredient item quantity you entered was not valid. Please enter a number.")

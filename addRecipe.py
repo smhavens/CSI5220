@@ -97,15 +97,18 @@ class Ui_MainWindow(object):
         recipeDesc = self.enterDesc.toPlainText()
         recipeSteps = self.enterInstructions.toPlainText()
         isPublic = self.yesRB.isChecked()
-        if recipeServings.isdigit():
-            rf.addPrivateRecipe(recipeName, recipeSteps, recipeServings, recipeDesc, isPublic)
-            if (isPublic == False):
-                msg.setText("The recipe \"" + recipeName + "\" has been added to your private library.")
+        if (rf.privateRecipes["RecipeName"] == recipeName).any() == False:
+            if recipeServings.isdigit():
+                rf.addPrivateRecipe(recipeName, recipeSteps, recipeServings, recipeDesc, isPublic)
+                if (isPublic == False):
+                    msg.setText("The recipe \"" + recipeName + "\" has been added to your private library.")
+                else:
+                    msg.setText("The recipe \"" + recipeName + "\" has been added to your private library and the "
+                                                               "public community library.")
             else:
-                msg.setText("The recipe \"" + recipeName + "\" has been added to your private library and the public "
-                                                           "community library.")
+                msg.setText("The servings quantity you entered was not valid. Please enter a whole number.")
         else:
-            msg.setText("The servings quantity you entered was not valid. Please enter a whole number.")
+            msg.setText("This recipe is already in your library. Please choose another recipe name.")
         msg.exec_()
 
     def retranslateUi(self, MainWindow):

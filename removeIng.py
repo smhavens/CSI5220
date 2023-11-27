@@ -4,7 +4,7 @@ import recipeFuncs as rf
 
 
 class Ui_MainWindow(object):
-    def setupUiRemoveRec(self, MainWindow):
+    def setupUiRemoveRecipeIng(self, MainWindow):
         MainWindow.resize(793, 360)
         MainWindow.setStyleSheet("background-color: #123456;")
         MainWindow.setWindowIcon(QtGui.QIcon('chef.png'))
@@ -40,8 +40,8 @@ class Ui_MainWindow(object):
         self.textEdit.setGeometry(QtCore.QRect(370, 130, 301, 41))
         self.textEdit.setFont(font)
 
-        self.submit = QtWidgets.QPushButton(self.frame, clicked=self.submitRemoveRecipe)
-        self.submit.setGeometry(QtCore.QRect(570, 250, 161, 51))
+        self.submit = QtWidgets.QPushButton(self.frame, clicked=self.submitRemPantry)
+        self.submit.setGeometry(QtCore.QRect(570, 255, 161, 51))
         self.submit.setStyleSheet("background-color: #61d800;")
         self.submit.setFont(font)
 
@@ -49,53 +49,42 @@ class Ui_MainWindow(object):
         self.recipeLib.setGeometry(QtCore.QRect(50, 200, 311, 41))
         self.recipeLib.setFont(font)
 
-        self.privateCB = QtWidgets.QRadioButton(self.frame)
-        font.setPointSize(8)
-        font.setBold(False)
-        self.privateCB.setGeometry(QtCore.QRect(370, 200, 121, 41))
-        self.privateCB.setChecked(True)
-        self.privateCB.setFont(font)
-
-        self.publicCB = QtWidgets.QRadioButton(self.frame)
-        self.publicCB.setGeometry(QtCore.QRect(530, 200, 141, 41))
-        self.publicCB.setFont(font)
+        self.textEdit2 = QtWidgets.QTextEdit(self.frame)
+        self.textEdit2.setGeometry(QtCore.QRect(370, 200, 301, 41))
+        self.textEdit2.setFont(font)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def submitRemoveRecipe(self):
+    def submitRemPantry(self):
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Information)
         msg.setWindowIcon(QtGui.QIcon('chef.png'))
-        msg.setWindowTitle("Remove Recipe Info")
+        msg.setWindowTitle("Remove Ingredient Info")
         recipeName = self.textEdit.toPlainText()
-        x = self.privateCB.isChecked()
-        y = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all(1).any()
-        if (x == True) and (y == True):
-            rf.removeAllIngForOneRecipe(recipeName, x)
-            rf.removePrivateRecipe(recipeName)
-            msg.setText("The recipe \"" + recipeName + "\" has been removed from your Private Library "
-                                                       "and the Public Community Library.")
-        elif (x == False) and (y == True):
-            rf.removeAllIngForOneRecipe(recipeName, x)
-            rf.removePublicRecipe(recipeName)
-            msg.setText("The recipe \"" + recipeName + "\" has been removed from the public Community Library.")
+        recipeIngredient = self.textEdit2.toPlainText()
+        y = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all().any()
+        if (y == True):
+            if (rf.allIngPublic.loc[(rf.allIngPublic["RecipeName"] == recipeName) & (rf.allIngPublic["ItemName"] == recipeIngredient)]).all().any() == True:
+                rf.removeRecipeIng(recipeName, recipeIngredient)
+                msg.setText("The ingredient \"" + recipeIngredient + "\" has been removed from \"" + recipeName + "\".")
+            else:
+                msg.setText("The ingredient you entered is not listed for this recipe.")
         else:
-            msg.setText("The recipe name you entered was not found in the library specified.")
+            msg.setText("The recipe you entered was not found in your library.")
         msg.exec_()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/Recipe Library/ Remove"))
-        self.titleLabel.setText(_translate("MainWindow", "Remove a Recipe"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/Recipe Library/ Ingredients/ Remove"))
+        self.titleLabel.setText(_translate("MainWindow", "Remove an Ingredient"))
         self.recipeName.setText(_translate("MainWindow", "Recipe Name:"))
         self.textEdit.setHtml(_translate("MainWindow", ""))
         self.submit.setText(_translate("MainWindow", "Submit"))
-        self.recipeLib.setText(_translate("MainWindow", "Recipe Library:"))
-        self.privateCB.setText(_translate("MainWindow", "Private Library"))
-        self.publicCB.setText(_translate("MainWindow", "Community Library"))
+        self.recipeLib.setText(_translate("MainWindow", "Recipe Ingredient:"))
+        self.textEdit2.setHtml(_translate("MainWindow", ""))
 
 
 if __name__ == "__main__":
@@ -103,6 +92,6 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
-    ui.setupUiRemoveRec(MainWindow)
+    ui.setupUiRemoveRecipeIng(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())

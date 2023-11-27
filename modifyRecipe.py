@@ -62,11 +62,37 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def submitxxxx(self):
-        self.msg = QMessageBox()
-        self.msg.setIcon(QMessageBox.Information)
-        self.msg.setWindowIcon(QtGui.QIcon('chef.png'))
-        self.msg.setWindowTitle("Pantry Item Removed")
-        self.msg.show()
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setWindowIcon(QtGui.QIcon('chef.png'))
+        msg.setWindowTitle("Pantry Item Removed")
+        recipeName = self.textEdit.toPlainText()
+        newValue = self.newVal.toPlainText()
+        listedType = self.comboBox.currentText()
+        x = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all(1).any()
+        if (x == True) and (listedType == "Recipe Name"):
+            rf.updateRecipe("RecipeName", recipeName, newValue)
+            msg.setText("The item name for the pantry item \"" + recipeName + "\" has been changed to \"" +
+                        newValue + "\".")
+            # update ing
+        elif (x == True) and (listedType == "Servings"):
+            if newValue.isnumeric():
+                rf.updateRecipe(listedType, recipeName, newValue)
+                msg.setText("The item name for the pantry item \"" + recipeName + "\" has been changed to \"" +
+                            newValue + "\".")
+                # update ing
+            else:
+                msg.setText("The servings quantity you entered was not valid. Please enter a number.")
+        elif (x == True) and ((listedType == "Instructions") or (listedType == "Description")):
+            rf.updateRecipe(listedType, recipeName, newValue)
+            msg.setText("The " + listedType.lower() + " for the recipe \"" + recipeName + "\" has been changed to \"" +
+                        newValue + "\".")
+        elif (x == True) and (listedType == "Privacy"):
+            rf.updateRecipe(listedType, recipeName, newValue)
+            #
+        else:
+            msg.setText("The recipe you entered was not found in your private library.")
+        msg.exec_()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -75,7 +101,7 @@ class Ui_MainWindow(object):
         self.recipeName.setText(_translate("MainWindow", "Recipe Name:"))
         self.textEdit.setHtml(_translate("MainWindow", ""))
         self.submit.setText(_translate("MainWindow", "Submit"))
-        self.comboBox.setItemText(0, _translate("MainWindow", "RecipeName"))
+        self.comboBox.setItemText(0, _translate("MainWindow", "Recipe Name"))
         self.comboBox.setItemText(1, _translate("MainWindow", "Instructions"))
         self.comboBox.setItemText(2, _translate("MainWindow", "Servings"))
         self.comboBox.setItemText(3, _translate("MainWindow", "Description"))

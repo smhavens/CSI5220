@@ -57,10 +57,9 @@ class Ui_MainWindow(object):
         for i in range(len(rf.groceries.index)):
             x = rf.groceries.iloc[i].tolist()
             self.tableWidget.setItem(i, 0, QTableWidgetItem(x[0]))
-            self.tableWidget.setItem(i, 1, QTableWidgetItem(x[1]))
-            self.tableWidget.setItem(i, 2, QTableWidgetItem(str(x[2])))
+            self.tableWidget.setItem(i, 1, QTableWidgetItem(str(x[1])))
+            self.tableWidget.setItem(i, 2, QTableWidgetItem(x[2]))
             self.tableWidget.setItem(i, 3, QTableWidgetItem(x[3]))
-
 
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -73,13 +72,13 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/Meal Plan/ Shopping List"))
         self.titleLabel.setText(_translate("MainWindow", "Shopping List"))
         item = self.tableWidget.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "Recipe Name"))
+        item.setText(_translate("MainWindow", "Item Name"))
         item = self.tableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "Instructions"))
+        item.setText(_translate("MainWindow", "Item Quantity"))
         item = self.tableWidget.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Servings"))
+        item.setText(_translate("MainWindow", "Units"))
         item = self.tableWidget.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "Description"))
+        item.setText(_translate("MainWindow", "Unit Type"))
 
 
 if __name__ == "__main__":

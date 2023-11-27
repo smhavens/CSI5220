@@ -82,7 +82,7 @@ class Ui_MainWindow(object):
             else:
                 msg.setText("The item quantity you entered was not valid. Please enter a number.")
         elif (x == True) and (listedType == "Units"):
-            rf.updatePantry("ItemName", pantryItem, newValue)
+            rf.updatePantry("Units", pantryItem, newValue)
             msg.setText("The item name for the pantry item \"" + pantryItem + "\" has been changed to \"" +
                         newValue + "\".\nPlease note that the only units that will be available to convert to "
                                    "imperial or metric units are:\n\t1. oz (liquid)\n\t2. oz (dry)\n\t3. cups (liquid)"

@@ -28,7 +28,8 @@ class AllIng:
         self.ItemQty = quantity
         self.Units = units
         self.UnitType = units
-        
+
+
 pantry = {"ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
 pantry = pd.DataFrame(pantry)
 groceries = {"ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
@@ -131,11 +132,14 @@ def changePantryUnitType(itemName):
 
 
 def addPrivateRecipe(title, instructions, servings, desc, ispublic):
-    privateRecipes.loc[-1] = [title, instructions, servings, desc, ispublic]
-    privateRecipes.index = privateRecipes.index + 1
-    if ispublic == True:
-        publicRecipes.loc[-1] = [title, instructions, servings, desc]
-        publicRecipes.index = publicRecipes.index + 1
+    if (privateRecipes["RecipeName"] == title).any():
+        print("This recipe is already in your library. Please choose another name.")
+    else:
+        privateRecipes.loc[-1] = [title, instructions, servings, desc, ispublic]
+        privateRecipes.index = privateRecipes.index + 1
+        if ispublic == True:
+            publicRecipes.loc[-1] = [title, instructions, servings, desc]
+            publicRecipes.index = publicRecipes.index + 1
 
 
 def removePublicRecipe(recipeName):
@@ -153,7 +157,7 @@ def removePrivateRecipe(recipeName):
 
 def searchRecipesByName(table, recipeName):
     foundRecipes = table[table["RecipeName"] == recipeName]
-    viewAll(foundRecipes)
+    return foundRecipes
 
 
 def updateRecipe(type, recipeName, newValue):
@@ -196,6 +200,19 @@ def removeRecipeIng(recipeName, itemName):
         inplace=True)
 
 
+def removeAllIngForOneRecipe(recipeName, removePriv):
+    if (
+            privateRecipes[
+                (privateRecipes["RecipeName"] == recipeName) & (privateRecipes["isPublic"] == True)]).empty == False:
+        allIngPublic.drop(
+            allIngPublic[(allIngPublic["RecipeName"] == recipeName)].index,
+            inplace=True)
+    if removePriv == True:
+        allIngPrivate.drop(
+            allIngPrivate[(allIngPrivate["RecipeName"] == recipeName)].index,
+            inplace=True)
+
+
 def allIngPerRecipe(table, recipeName):
     allIng = table.loc[table["RecipeName"] == recipeName]
     viewAll(allIng)
@@ -213,7 +230,7 @@ def updateRecipeIng(recipeName, itemName, type, newValue):
 
 def searchByIngName(table, itemName):
     foundRecipes = table[table["ItemName"] == itemName]
-    viewAll(foundRecipes)
+    return foundRecipes
 
 
 def changePubPrivRecipeUnitType(table, recipeName, changeType):
@@ -254,16 +271,13 @@ def changeRecipeUnitType(recipeName, changeType):
 
 def addRecipeToMealPlan(recipeTable, ingTable, recipeName):
     allIngMealPlan.reset_index(drop=True, inplace=True)
-    if (mealPlan.loc[mealPlan["RecipeName"] == recipeName]).all(1).any():
-        print("This recipe is already in your meal plan")
-    else:
-        df = recipeTable[recipeTable["RecipeName"] == recipeName]
-        mealPlan.loc[-1] = [df.iat[0, 0], df.iat[0, 1], df.iat[0, 2], df.iat[0, 3]]
-        mealPlan.index = mealPlan.index + 1
-        df = ingTable[ingTable["RecipeName"] == recipeName]
-        for i in range(len(df)):
-            allIngMealPlan.loc[-1] = [df.iat[i, 0], df.iat[i, 1], df.iat[i, 2], df.iat[i, 3], df.iat[i, 4]]
-            allIngMealPlan.index = allIngMealPlan.index + 1
+    df = recipeTable[recipeTable["RecipeName"] == recipeName]
+    mealPlan.loc[-1] = [df.iat[0, 0], df.iat[0, 1], df.iat[0, 2], df.iat[0, 3]]
+    mealPlan.index = mealPlan.index + 1
+    df = ingTable[ingTable["RecipeName"] == recipeName]
+    for i in range(len(df)):
+        allIngMealPlan.loc[-1] = [df.iat[i, 0], df.iat[i, 1], df.iat[i, 2], df.iat[i, 3], df.iat[i, 4]]
+        allIngMealPlan.index = allIngMealPlan.index + 1
 
 
 def changeServings(recipeName, newValue):
@@ -381,18 +395,18 @@ addPrivateRecipe("soup", "make the food", 3, "its good", True)
 
 
 """Searching recipes by ingredient"""
-addPrivateRecipe("Grilled cheese", "make the food", 3, "its good", True)
-addPrivateRecipe("cheese", "eat the food", 3, "its good", False)
+# addPrivateRecipe("Grilled cheese", "make the food", 3, "its good", True)
+# addPrivateRecipe("cheese", "eat the food", 3, "its good", False)
 addRecipeIng("Grilled cheese", "bread", 2, "Slice", "Other")
 addRecipeIng("Grilled cheese", "butter", 1, "Tbsp", "Imperial")
 addRecipeIng("Grilled cheese", "tomato", 1, "Each", "Other")
-addRecipeIng("cheese", "cheese", 2, "oz(dry)", "Imperial")
+addRecipeIng("omelette", "eggs", 2, "Each", "Other")
 # viewAll(allIngPrivate)
 # viewAll(allIngPublic)
-searchByIngName(allIngPrivate, "cheese")
-searchByIngName(allIngPublic, "cheese")
-x = allIngPrivate["RecipeName"].tolist()
-print(x)
+# searchByIngName(allIngPrivate, "cheese")
+# searchByIngName(allIngPublic, "cheese")
+# x = allIngPrivate["RecipeName"].tolist()
+# print(x)
 
 
 """Testing all build plan functions"""
@@ -401,7 +415,7 @@ print(x)
 # addRecipeIng("omelette", ["eggs", "cheese"], [2, 1], ["each", "oz (dry)"], ["Other", "Imperial"])
 # addRecipeToMealPlan(privateRecipes, allIngPrivate, "omelette")
 # addRecipeToMealPlan(publicRecipes, allIngPublic, "Grilled cheese")
-# # addRecipeToMealPlan(privateRecipes, allIngPrivate, "omelette")
+addRecipeToMealPlan(privateRecipes, allIngPrivate, "omelette")
 # viewAll(allIngMealPlan)
 # viewAll(mealPlan)
 # changeServings("Grilled cheese", 6)

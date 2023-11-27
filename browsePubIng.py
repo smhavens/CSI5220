@@ -1,10 +1,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-import recipeFuncs as rf
 from PyQt5.QtWidgets import *
 
-
 class Ui_MainWindow(object):
-    def setupUiBrowsePrivate(self, MainWindow):
+    def setupUiBrowsePrivPub(self, MainWindow, temp):
         MainWindow.resize(793, 365)
         MainWindow.setStyleSheet("background-color: #123456;")
         MainWindow.setWindowIcon(QtGui.QIcon('chef.png'))
@@ -52,19 +50,18 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setFont(font)
         self.tableWidget.setHorizontalHeaderItem(4, item)
-        self.tableWidget.setRowCount(len(rf.privateRecipes.index)-1)
+        self.tableWidget.setRowCount(len(temp.index)-1)
 
         rowPosition = self.tableWidget.rowCount()
         self.tableWidget.insertRow(rowPosition)
-        print(len(rf.privateRecipes.index))
-        for i in range(len(rf.privateRecipes.index)):
-            x = rf.privateRecipes.iloc[i].tolist()
+        print(len(temp.index))
+        for i in range(len(temp.index)):
+            x = temp.iloc[i].tolist()
             self.tableWidget.setItem(i, 0, QTableWidgetItem(x[0]))
             self.tableWidget.setItem(i, 1, QTableWidgetItem(x[1]))
             self.tableWidget.setItem(i, 2, QTableWidgetItem(str(x[2])))
             self.tableWidget.setItem(i, 3, QTableWidgetItem(x[3]))
             self.tableWidget.setItem(i, 4, QTableWidgetItem(str(x[4])))
-
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -73,18 +70,19 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/Recipe Library/ Browse Private Library"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/Recipe Library/ Ingredients/ Browse"))
         self.titleLabel.setText(_translate("MainWindow", "Browse Your Recipes"))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Recipe Name"))
         item = self.tableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "Instructions"))
+        item.setText(_translate("MainWindow", "Ingredient"))
         item = self.tableWidget.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "Servings"))
+        item.setText(_translate("MainWindow", "Quantity"))
         item = self.tableWidget.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "Description"))
+        item.setText(_translate("MainWindow", "Units"))
         item = self.tableWidget.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "Is Public"))
+        item.setText(_translate("MainWindow", "Unit Type"))
+
 
 
 if __name__ == "__main__":
@@ -92,7 +90,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
-    ui.setupUiBrowsePrivate(MainWindow)
+    ui.setupUiBrowsePrivPub(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
 

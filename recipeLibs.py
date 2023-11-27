@@ -14,11 +14,11 @@ class Ui_MainWindow(object):
         self.addRecipeUI.setupUiAddRecipe(self.addRecipeWindow)
         self.addRecipeWindow.hide()
 
-        import addRecipeItem
-        self.addRecipeItemWindow = QtWidgets.QMainWindow()
-        self.addRecipeItemUI = addRecipeItem.Ui_MainWindow()
-        self.addRecipeItemUI.setupUiAddRecipeIng(self.addRecipeItemWindow)
-        self.addRecipeItemWindow.hide()
+        import allRecipeIng
+        self.recipeItemWindow = QtWidgets.QMainWindow()
+        self.recipeItemUI = allRecipeIng.Ui_MainWindow()
+        self.recipeItemUI.setupUiAllRecipeIng(self.recipeItemWindow)
+        self.recipeItemWindow.hide()
 
         import removeRecipe
         self.removeRecipeWindow = QtWidgets.QMainWindow()
@@ -74,7 +74,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         self.add.setFont(font)
 
-        self.addIng = QtWidgets.QPushButton(self.frame, clicked=self.addRecipeIng)
+        self.addIng = QtWidgets.QPushButton(self.frame, clicked=self.recipeIng)
         self.addIng.setGeometry(QtCore.QRect(280, 120, 191, 61))
         self.addIng.setStyleSheet("background-color: #FFFFFF;")
         self.addIng.setFont(font)
@@ -108,9 +108,9 @@ class Ui_MainWindow(object):
         self.addRecipeUI.setupUiAddRecipe(self.addRecipeWindow)
         self.addRecipeWindow.show()
 
-    def addRecipeIng(self):
-        self.addRecipeItemUI.setupUiAddRecipeIng(self.addRecipeItemWindow)
-        self.addRecipeItemWindow.show()
+    def recipeIng(self):
+        self.recipeItemUI.setupUiAllRecipeIng(self.recipeItemWindow)
+        self.recipeItemWindow.show()
 
     def remove(self):
         self.removeRecipeUI.setupUiRemoveRec(self.removeRecipeWindow)
@@ -132,7 +132,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/Recipe Library"))
         self.add.setText(_translate("MainWindow", "Add Recipe"))
-        self.addIng.setText(_translate("MainWindow", "Add Ingredient\n to Recipe"))
+        self.addIng.setText(_translate("MainWindow", "Recipe Ingredients"))
         self.remove.setText(_translate("MainWindow", "Remove Recipe"))
         self.modify.setText(_translate("MainWindow", "Modify Recipe"))
         self.search1.setText(_translate("MainWindow", "Browse Your Recipes"))

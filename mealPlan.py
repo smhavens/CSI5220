@@ -1,4 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
+
+import recipeFuncs as rf
 
 
 class Ui_MainWindow(object):
@@ -13,6 +16,12 @@ class Ui_MainWindow(object):
         self.shoppingListUI = shoppingList.Ui_MainWindow()
         self.shoppingListUI.setupUiShoppingList(self.shoppingListWindow)
         self.shoppingListWindow.hide()
+
+        import browseMP
+        self.browseMPWindow = QtWidgets.QMainWindow()
+        self.browseMPUI = browseMP.Ui_MainWindow()
+        self.browseMPUI.setupUiBrowseMP(self.browseMPWindow)
+        self.browseMPWindow.hide()
 
         self.frame = QtWidgets.QFrame(self.centralwidget)
         self.frame.setGeometry(QtCore.QRect(20, 20, 751, 441))
@@ -55,6 +64,7 @@ class Ui_MainWindow(object):
         self.imperialRB = QtWidgets.QRadioButton(self.frame)
         self.imperialRB.setGeometry(QtCore.QRect(530, 320, 141, 41))
         self.imperialRB.setFont(font)
+        self.imperialRB.setChecked(True)
 
         self.label2 = QtWidgets.QLabel(self.frame)
         self.label2.setGeometry(QtCore.QRect(50, 180, 311, 41))
@@ -70,13 +80,23 @@ class Ui_MainWindow(object):
         self.textEditSev.setGeometry(QtCore.QRect(370, 250, 301, 41))
         self.textEditSev.setFont(font)
 
-        self.submit = QtWidgets.QPushButton(self.frame)
-        self.submit.setGeometry(QtCore.QRect(570, 370, 161, 51))
+        self.submit = QtWidgets.QPushButton(self.frame, clicked=self.addToMealPlan)
+        self.submit.setGeometry(QtCore.QRect(570, 370, 150, 51))
         self.submit.setStyleSheet("background-color: #61d800;")
         self.submit.setFont(font)
 
+        self.viewMP = QtWidgets.QPushButton(self.frame, clicked=self.browseMP)
+        self.viewMP.setGeometry(QtCore.QRect(50, 370, 150, 51))
+        self.viewMP.setStyleSheet("background-color: #61d800;")
+        self.viewMP.setFont(font)
+
+        self.clear = QtWidgets.QPushButton(self.frame, clicked=self.clearMP)
+        self.clear.setGeometry(QtCore.QRect(225, 370, 150, 51))
+        self.clear.setStyleSheet("background-color: #61d800;")
+        self.clear.setFont(font)
+
         self.shopping = QtWidgets.QPushButton(self.frame, clicked=self.viewShoppingList)
-        self.shopping.setGeometry(QtCore.QRect(370, 370, 161, 51))
+        self.shopping.setGeometry(QtCore.QRect(395, 370, 150, 51))
         self.shopping.setStyleSheet("background-color: #61d800;")
         self.shopping.setFont(font)
 
@@ -94,8 +114,56 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def viewShoppingList(self):
+        rf.groceryList()
         self.shoppingListUI.setupUiShoppingList(self.shoppingListWindow)
         self.shoppingListWindow.show()
+
+    def clearMP(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setWindowIcon(QtGui.QIcon('chef.png'))
+        msg.setWindowTitle("Meal Plan Info")
+        rf.clearMealPlan()
+        msg.setText("Your meal plan has been cleared.")
+        msg.exec_()
+
+
+    def browseMP(self):
+        self.browseMPUI.setupUiBrowseMP(self.browseMPWindow)
+        self.browseMPWindow.show()
+
+
+    def addToMealPlan(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setWindowIcon(QtGui.QIcon('chef.png'))
+        msg.setWindowTitle("Meal Plan Info")
+        isImperial = self.imperialRB.isChecked()
+        recipeName = self.textEditName.toPlainText()
+        servings = self.textEditSev.toPlainText()
+        rf.viewAll(rf.mealPlan)
+        x = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all().any()
+        print(rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all())
+        print(x)
+        if (x == True):
+            if (rf.mealPlan.loc[rf.mealPlan["RecipeName"] == recipeName]).all().any() == False:
+                if (servings.isnumeric()):
+                    rf.addRecipeToMealPlan(rf.privateRecipes, rf.allIngPrivate, recipeName)
+                    rf.changeServings(recipeName, servings)
+                    if (isImperial == True):
+                        rf.unitChange(recipeName, "Imperial")
+                    else:
+                        rf.unitChange(recipeName, "Metric")
+                    msg.setText("The recipe \"" + recipeName + "\" has been added to your meal plan.")
+                else:
+                    msg.setText("The servings quantity you entered was not valid. Please enter a number.")
+            else:
+                msg.setText("This recipe is already in your meal plan.")
+        else:
+            msg.setText("The recipe name you entered was not found in your library. "
+                        "You can only add recipes to your meal plan that are in your library.")
+        msg.exec_()
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -107,7 +175,9 @@ class Ui_MainWindow(object):
         self.label2.setText(_translate("MainWindow", "Recipe Name:"))
         self.textEditName.setHtml(_translate("MainWindow", ""))
         self.textEditSev.setHtml(_translate("MainWindow", ""))
-        self.submit.setText(_translate("MainWindow", "Submit"))
+        self.submit.setText(_translate("MainWindow", "Add to Meal Plan"))
+        self.clear.setText(_translate("MainWindow", "Clear Meal Plan"))
+        self.viewMP.setText(_translate("MainWindow", "View Meal Plan"))
         self.shopping.setText(_translate("MainWindow", "Shopping List"))
         self.label3.setText(_translate("MainWindow", "Desired Serving Size: "))
         self.label4.setText(_translate("MainWindow", "Desired Units: "))
