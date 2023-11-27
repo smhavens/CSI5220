@@ -71,12 +71,7 @@ class AllIng:
         self.ItemName = items
         self.ItemQty = quantity
         self.Units = units
-<<<<<<< HEAD
-        self.UnitType = units
 
-
-=======
-        self.UnitType = unitType
         
     def addAllIng(self, recipe, item, quantity, unit, type):
         self.RecipeName.append(recipe)
@@ -92,7 +87,7 @@ class AllIng:
         self.Units.pop(id)
         self.UnitType.pop(id)
         
->>>>>>> fe7c083d22667bee4069dae4505fad7b3fd640fe
+
 pantry = {"ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
 pantry = pd.DataFrame(pantry)
 groceries = {"ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
