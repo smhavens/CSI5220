@@ -7,17 +7,17 @@ class ItemList:
         self.Units = units
         self.UnitType = unitType
         
-    def addItem(self, item, amount, unit, type):
-        self.ItemName.append(item)
-        self.ItemQty.append(amount)
-        self.Units.append(unit)
-        self.UnitType.append(type)
+    # def addItem(self, item, amount, unit, type):
+    #     self.ItemName.append(item)
+    #     self.ItemQty.append(amount)
+    #     self.Units.append(unit)
+    #     self.UnitType.append(type)
         
-    def removeItem(self, id):
-        self.ItemName.pop(id)
-        self.ItemQty.pop(id)
-        self.Units.pop(id)
-        self.UnitType.pop(id)
+    # def removeItem(self, id):
+    #     self.ItemName.pop(id)
+    #     self.ItemQty.pop(id)
+    #     self.Units.pop(id)
+    #     self.UnitType.pop(id)
         
 class Recipes:
     def __init__(self, names=[], inst=[], serving=[], desc=[]):
@@ -26,17 +26,17 @@ class Recipes:
         self.Servings = serving
         self.Description = desc
         
-    def addRecipe(self, name, inst, serving, desc):
-        self.RecipeName.append(name)
-        self.Instructions.append(inst)
-        self.Servings.append(serving)
-        self.Description.append(desc)
+    # def addRecipe(self, name, inst, serving, desc):
+    #     self.RecipeName.append(name)
+    #     self.Instructions.append(inst)
+    #     self.Servings.append(serving)
+    #     self.Description.append(desc)
         
-    def removeRecipe(self, id):
-        self.RecipeName.pop(id)
-        self.Instructions.pop(id)
-        self.Servings.pop(id)
-        self.Description.pop(id)
+    # def removeRecipe(self, id):
+    #     self.RecipeName.pop(id)
+    #     self.Instructions.pop(id)
+    #     self.Servings.pop(id)
+    #     self.Description.pop(id)
         
 class PrivateRecipes:
     def __init__(self, recipes=[], instructions=[], servings=[], desc=[], isPublic=[]):
@@ -46,23 +46,23 @@ class PrivateRecipes:
         self.Description = desc
         self.isPublic = isPublic
         
-    def addPrivateRecipe(self, recipe, inst, serve, desc, public):
-        self.RecipeName.append(recipe)
-        self.Instructions.append(inst)
-        self.Servings.append(serve)
-        self.Description.append(desc)
-        self.isPublic.append(public)
+    # def addPrivateRecipe(self, recipe, inst, serve, desc, public):
+    #     self.RecipeName.append(recipe)
+    #     self.Instructions.append(inst)
+    #     self.Servings.append(serve)
+    #     self.Description.append(desc)
+    #     self.isPublic.append(public)
         
-    def removePrivateRecipe(self, id):
-        self.RecipeName.pop(id)
-        self.Instructions.pop(id)
-        self.Servings.pop(id)
-        self.Description.pop(id)
-        self.isPublic.pop(id)
+    # def removePrivateRecipe(self, id):
+    #     self.RecipeName.pop(id)
+    #     self.Instructions.pop(id)
+    #     self.Servings.pop(id)
+    #     self.Description.pop(id)
+    #     self.isPublic.pop(id)
         
-    def setToPrivate(self, id):
-        if self.isPublic[id]:
-            self.isPublic[id] = False
+    # def setToPrivate(self, id):
+    #     if self.isPublic[id]:
+    #         self.isPublic[id] = False
             
         
 class AllIng:
@@ -71,21 +71,22 @@ class AllIng:
         self.ItemName = items
         self.ItemQty = quantity
         self.Units = units
+        self.UnitType = unitType
 
         
-    def addAllIng(self, recipe, item, quantity, unit, type):
-        self.RecipeName.append(recipe)
-        self.ItemName.append(item)
-        self.ItemQty.append(quantity)
-        self.Units.append(unit)
-        self.UnitType.append(type)
+    # def addAllIng(self, recipe, item, quantity, unit, type):
+    #     self.RecipeName.append(recipe)
+    #     self.ItemName.append(item)
+    #     self.ItemQty.append(quantity)
+    #     self.Units.append(unit)
+    #     self.UnitType.append(type)
         
-    def removeAllIng(self, id):
-        self.RecipeName.pop(id)
-        self.ItemName.pop(id)
-        self.ItemQty.pop(id)
-        self.Units.pop(id)
-        self.UnitType.pop(id)
+    # def removeAllIng(self, id):
+    #     self.RecipeName.pop(id)
+    #     self.ItemName.pop(id)
+    #     self.ItemQty.pop(id)
+    #     self.Units.pop(id)
+    #     self.UnitType.pop(id)
         
 
 pantry = {"ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
