@@ -88,23 +88,31 @@ class AllIng:
     #     self.Units.pop(id)
     #     self.UnitType.pop(id)
         
-
-pantry = {"ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
-pantry = pd.DataFrame(pantry)
-groceries = {"ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
-groceries = pd.DataFrame(groceries)
-privateRecipes = {"RecipeName": [], "Instructions": [], "Servings": [], "Description": [], "isPublic": []}
-privateRecipes = pd.DataFrame(privateRecipes)
-publicRecipes = {"RecipeName": [], "Instructions": [], "Servings": [], "Description": []}
-publicRecipes = pd.DataFrame(publicRecipes)
-mealPlan = {"RecipeName": [], "Instructions": [], "Servings": [], "Description": []}
-mealPlan = pd.DataFrame(mealPlan)
-allIngPrivate = {"RecipeName": [], "ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
-allIngPrivate = pd.DataFrame(allIngPrivate)
-allIngPublic = {"RecipeName": [], "ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
-allIngPublic = pd.DataFrame(allIngPublic)
-allIngMealPlan = {"RecipeName": [], "ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
-allIngMealPlan = pd.DataFrame(allIngMealPlan)
+pantry = ItemList()
+# pantry = {"ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
+# pantry = pd.DataFrame(pantry)
+pantry = pd.DataFrame(pantry.__dict__)
+# groceries = {"ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
+groceries = ItemList()
+groceries = pd.DataFrame(groceries.__dict__)
+# privateRecipes = {"RecipeName": [], "Instructions": [], "Servings": [], "Description": [], "isPublic": []}
+privateRecipes = PrivateRecipes()
+privateRecipes = pd.DataFrame(privateRecipes.__dict__)
+# publicRecipes = {"RecipeName": [], "Instructions": [], "Servings": [], "Description": []}
+publicRecipes = Recipes()
+publicRecipes = pd.DataFrame(publicRecipes.__dict__)
+# mealPlan = {"RecipeName": [], "Instructions": [], "Servings": [], "Description": []}
+mealPlan = Recipes()
+mealPlan = pd.DataFrame(mealPlan.__dict__)
+# allIngPrivate = {"RecipeName": [], "ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
+allIngPrivate = AllIng()
+allIngPrivate = pd.DataFrame(allIngPrivate.__dict__)
+# allIngPublic = {"RecipeName": [], "ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
+allIngPublic = AllIng()
+allIngPublic = pd.DataFrame(allIngPublic.__dict__)
+# allIngMealPlan = {"RecipeName": [], "ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
+allIngMealPlan = AllIng()
+allIngMealPlan = pd.DataFrame(allIngMealPlan.__dict__)
 
 # all units not in these dicts will not be changed during conversion
 unitValsDict = {"oz (liquid)": 29.574,
