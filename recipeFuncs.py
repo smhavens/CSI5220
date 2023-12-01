@@ -1,4 +1,5 @@
 import pandas as pd
+        
 
 class ItemList:
     def __init__(self, items=[], quantity=[], units=[], unitType=[]):
@@ -6,38 +7,38 @@ class ItemList:
         self.ItemQty = quantity
         self.Units = units
         self.UnitType = unitType
-        
+
     # def addItem(self, item, amount, unit, type):
     #     self.ItemName.append(item)
     #     self.ItemQty.append(amount)
     #     self.Units.append(unit)
     #     self.UnitType.append(type)
-        
+
     # def removeItem(self, id):
     #     self.ItemName.pop(id)
     #     self.ItemQty.pop(id)
     #     self.Units.pop(id)
     #     self.UnitType.pop(id)
-        
+
 class Recipes:
     def __init__(self, names=[], inst=[], serving=[], desc=[]):
         self.RecipeName = names
         self.Instructions = inst
         self.Servings = serving
         self.Description = desc
-        
+
     # def addRecipe(self, name, inst, serving, desc):
     #     self.RecipeName.append(name)
     #     self.Instructions.append(inst)
     #     self.Servings.append(serving)
     #     self.Description.append(desc)
-        
+
     # def removeRecipe(self, id):
     #     self.RecipeName.pop(id)
     #     self.Instructions.pop(id)
     #     self.Servings.pop(id)
     #     self.Description.pop(id)
-        
+
 class PrivateRecipes:
     def __init__(self, recipes=[], instructions=[], servings=[], desc=[], isPublic=[]):
         self.RecipeName = recipes
@@ -45,26 +46,26 @@ class PrivateRecipes:
         self.Servings = servings
         self.Description = desc
         self.isPublic = isPublic
-        
+
     # def addPrivateRecipe(self, recipe, inst, serve, desc, public):
     #     self.RecipeName.append(recipe)
     #     self.Instructions.append(inst)
     #     self.Servings.append(serve)
     #     self.Description.append(desc)
     #     self.isPublic.append(public)
-        
+
     # def removePrivateRecipe(self, id):
     #     self.RecipeName.pop(id)
     #     self.Instructions.pop(id)
     #     self.Servings.pop(id)
     #     self.Description.pop(id)
     #     self.isPublic.pop(id)
-        
+
     # def setToPrivate(self, id):
     #     if self.isPublic[id]:
     #         self.isPublic[id] = False
-            
-        
+
+
 class AllIng:
     def __init__(self, recipes=[], items=[], quantity=[], units=[], unitType=[]):
         self.RecipeName = recipes
@@ -73,38 +74,46 @@ class AllIng:
         self.Units = units
         self.UnitType = unitType
 
-        
+
     # def addAllIng(self, recipe, item, quantity, unit, type):
     #     self.RecipeName.append(recipe)
     #     self.ItemName.append(item)
     #     self.ItemQty.append(quantity)
     #     self.Units.append(unit)
     #     self.UnitType.append(type)
-        
+
     # def removeAllIng(self, id):
     #     self.RecipeName.pop(id)
     #     self.ItemName.pop(id)
     #     self.ItemQty.pop(id)
     #     self.Units.pop(id)
     #     self.UnitType.pop(id)
-        
 
-pantry = {"ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
-pantry = pd.DataFrame(pantry)
-groceries = {"ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
-groceries = pd.DataFrame(groceries)
-privateRecipes = {"RecipeName": [], "Instructions": [], "Servings": [], "Description": [], "isPublic": []}
-privateRecipes = pd.DataFrame(privateRecipes)
-publicRecipes = {"RecipeName": [], "Instructions": [], "Servings": [], "Description": []}
-publicRecipes = pd.DataFrame(publicRecipes)
-mealPlan = {"RecipeName": [], "Instructions": [], "Servings": [], "Description": []}
-mealPlan = pd.DataFrame(mealPlan)
-allIngPrivate = {"RecipeName": [], "ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
-allIngPrivate = pd.DataFrame(allIngPrivate)
-allIngPublic = {"RecipeName": [], "ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
-allIngPublic = pd.DataFrame(allIngPublic)
-allIngMealPlan = {"RecipeName": [], "ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
-allIngMealPlan = pd.DataFrame(allIngMealPlan)
+pantry = ItemList()
+# pantry = {"ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
+# pantry = pd.DataFrame(pantry)
+pantry = pd.DataFrame(pantry.__dict__)
+# groceries = {"ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
+groceries = ItemList()
+groceries = pd.DataFrame(groceries.__dict__)
+# privateRecipes = {"RecipeName": [], "Instructions": [], "Servings": [], "Description": [], "isPublic": []}
+privateRecipes = PrivateRecipes()
+privateRecipes = pd.DataFrame(privateRecipes.__dict__)
+# publicRecipes = {"RecipeName": [], "Instructions": [], "Servings": [], "Description": []}
+publicRecipes = Recipes()
+publicRecipes = pd.DataFrame(publicRecipes.__dict__)
+# mealPlan = {"RecipeName": [], "Instructions": [], "Servings": [], "Description": []}
+mealPlan = Recipes()
+mealPlan = pd.DataFrame(mealPlan.__dict__)
+# allIngPrivate = {"RecipeName": [], "ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
+allIngPrivate = AllIng()
+allIngPrivate = pd.DataFrame(allIngPrivate.__dict__)
+# allIngPublic = {"RecipeName": [], "ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
+allIngPublic = AllIng()
+allIngPublic = pd.DataFrame(allIngPublic.__dict__)
+# allIngMealPlan = {"RecipeName": [], "ItemName": [], "ItemQty": [], "Units": [], "UnitType": []}
+allIngMealPlan = AllIng()
+allIngMealPlan = pd.DataFrame(allIngMealPlan.__dict__)
 
 # all units not in these dicts will not be changed during conversion
 unitValsDict = {"oz (liquid)": 29.574,
