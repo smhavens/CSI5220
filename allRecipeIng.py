@@ -21,6 +21,12 @@ class Ui_MainWindow(object):
         self.removeIngUI.setupUiRemoveRecipeIng(self.removeIngWindow)
         self.removeIngWindow.hide()
 
+        import modifyIng
+        self.modifyIngWindow = QtWidgets.QMainWindow()
+        self.modifyIngUI = modifyIng.Ui_MainWindow()
+        self.modifyIngUI.setupUiModifyIng(self.modifyIngWindow)
+        self.modifyIngWindow.hide()
+
         import browsePubIng
         temp = rf.allIngPrivate
         self.ingWindow = QtWidgets.QMainWindow()
@@ -63,23 +69,18 @@ class Ui_MainWindow(object):
         self.removeIng.setStyleSheet("background-color: #FFFFFF;")
         self.removeIng.setFont(font)
 
-        self.modifyIng = QtWidgets.QPushButton(self.frame)
+        self.modifyIng = QtWidgets.QPushButton(self.frame, clicked=self.modifyRecipeIng)
         self.modifyIng.setGeometry(QtCore.QRect(510, 120, 191, 61))
         self.modifyIng.setStyleSheet("background-color: #FFFFFF;")
         self.modifyIng.setFont(font)
 
-        self.unitType = QtWidgets.QPushButton(self.frame)
-        self.unitType.setGeometry(QtCore.QRect(50, 210, 191, 61))
-        self.unitType.setStyleSheet("background-color: #FFFFFF;")
-        self.unitType.setFont(font)
-
         self.search1 = QtWidgets.QPushButton(self.frame, clicked=self.browsePrivIng)
-        self.search1.setGeometry(QtCore.QRect(280, 210, 191, 61))
+        self.search1.setGeometry(QtCore.QRect(160, 210, 191, 61))
         self.search1.setStyleSheet("background-color: #FFFFFF;")
         self.search1.setFont(font)
 
         self.search2 = QtWidgets.QPushButton(self.frame, clicked=self.browsePubIng)
-        self.search2.setGeometry(QtCore.QRect(510, 210, 191, 61))
+        self.search2.setGeometry(QtCore.QRect(390, 210, 191, 61))
         self.search2.setStyleSheet("background-color: #FFFFFF;")
         self.search2.setFont(font)
 
@@ -95,6 +96,10 @@ class Ui_MainWindow(object):
     def removeRecipeIng(self):
         self.removeIngUI.setupUiRemoveRecipeIng(self.removeIngWindow)
         self.removeIngWindow.show()
+
+    def modifyRecipeIng(self):
+        self.modifyIngUI.setupUiModifyIng(self.modifyIngWindow)
+        self.modifyIngWindow.show()
 
     def browsePrivIng(self):
         temp = rf.allIngPrivate
@@ -112,7 +117,6 @@ class Ui_MainWindow(object):
         self.add.setText(_translate("MainWindow", "Add Ingredient"))
         self.removeIng.setText(_translate("MainWindow", "Remove Ingredient"))
         self.modifyIng.setText(_translate("MainWindow", "Modify Ingredient"))
-        self.unitType.setText(_translate("MainWindow", "Switch Ingredient\nUnit Type"))
         self.search1.setText(_translate("MainWindow", "Browse Your\nRecipe Ingredients"))
         self.search2.setText(_translate("MainWindow", "Browse Community\nRecipes Ingredients"))
         self.titleLabel.setText(_translate("MainWindow", "Personal and Community Recipe Ingredients"))

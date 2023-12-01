@@ -109,35 +109,42 @@ class Ui_MainWindow(object):
         isMetric = self.metric.isChecked()
         isImperial = self.imperial.isChecked()
         x = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all().any()
+        # y = rf.allIngPrivate.loc[rf.allIngPrivate["ItemName"] == itemName].all().any()
+        # (privateRecipes["RecipeName"] == recipeName) & (privateRecipes["isPublic"] == True)
+        y = rf.allIngPrivate.loc[(rf.allIngPrivate["RecipeName"] == recipeName) & (rf.allIngPrivate["ItemName"] == itemName)].all().any()
+        print(y)
         if (x == True):
-            if (itemQty.isnumeric()):
-                if (isImperial == True):
-                    if (itemUnits in validImperial):
-                        rf.addRecipeIng(recipeName, itemName, itemQty, itemUnits, "Imperial")
-                        msg.setText("The ingredient \"" + itemName + "\" has been added to your recipe \""
-                                    + recipeName + "\" with the quantity \"" + str(itemQty) + " " + itemUnits + "\".")
-                    else:
-                        msg.setText("The units you entered are not in our supported list of valid imperial units. "
-                                    "Please convert this item to one of the following unit measurements:"
-                                    "\n\t1. oz (liquid)\n\t2. oz (dry)\n\t3. cups (liquid)\n\t4. Tbsp\n\t5. tsp")
+            if (y == False):
+                if (itemQty.isnumeric()):
+                    if (isImperial == True):
+                        if (itemUnits in validImperial):
+                            rf.addRecipeIng(recipeName, itemName, itemQty, itemUnits, "Imperial")
+                            msg.setText("The ingredient \"" + itemName + "\" has been added to your recipe \""
+                                        + recipeName + "\" with the quantity \"" + str(itemQty) + " " + itemUnits + "\".")
+                        else:
+                            msg.setText("The units you entered are not in our supported list of valid imperial units. "
+                                        "Please convert this item to one of the following unit measurements:"
+                                        "\n\t1. oz (liquid)\n\t2. oz (dry)\n\t3. cups (liquid)\n\t4. Tbsp\n\t5. tsp")
 
-                elif (isMetric == True):
-                    if (itemUnits in validMetric):
-                        rf.addRecipeIng(recipeName, itemName, itemQty, itemUnits, "Metric")
-                        msg.setText("The ingredient \"" + itemName + "\" has been added to your recipe \""
-                                    + recipeName + "\" with the quantity \"" + str(itemQty) + " " + itemUnits + "\".")
+                    elif (isMetric == True):
+                        if (itemUnits in validMetric):
+                            rf.addRecipeIng(recipeName, itemName, itemQty, itemUnits, "Metric")
+                            msg.setText("The ingredient \"" + itemName + "\" has been added to your recipe \""
+                                        + recipeName + "\" with the quantity \"" + str(itemQty) + " " + itemUnits + "\".")
+                        else:
+                            msg.setText("The units you entered are not in our supported list of valid metric units. "
+                                        "Please convert this item to one of the following unit measurements:"
+                                        "\n\t1. mL\n\t2. g\n\t3. dsp")
                     else:
-                        msg.setText("The units you entered are not in our supported list of valid metric units. "
-                                    "Please convert this item to one of the following unit measurements:"
-                                    "\n\t1. mL\n\t2. g\n\t3. dsp")
+                        rf.addRecipeIng(recipeName, itemName, itemQty, itemUnits, "Other")
+                        msg.setText("The ingredient \"" + itemName + "\" has been added to your recipe \""
+                                    + recipeName + "\" with the quantity \"" + str(itemQty) + " " + itemUnits +
+                                    "\".\n Please note that this item will not be affected if you decide to "
+                                    "convert the recipe to either metric or imperial units.")
                 else:
-                    rf.addRecipeIng(recipeName, itemName, itemQty, itemUnits, "Other")
-                    msg.setText("The ingredient \"" + itemName + "\" has been added to your recipe \""
-                                + recipeName + "\" with the quantity \"" + str(itemQty) + " " + itemUnits +
-                                "\".\n Please note that this item will not be affected if you decide to "
-                                "convert the recipe to either metric or imperial units.")
+                    msg.setText("The ingredient item quantity you entered was not valid. Please enter a number.")
             else:
-                msg.setText("The ingredient item quantity you entered was not valid. Please enter a number.")
+                msg.setText("The ingredient you entered is already listed as an ingredient for this recipe.")
         else:
             msg.setText("The recipe name you entered was not found in your library. "
                         "You can only add ingredients to recipes you have already added to your library.")
@@ -146,7 +153,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/Recipe Library/ Add Recipe Ingredient"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/Recipe Library/ Ingredients/ Add "))
         self.titleLabel.setText(_translate("MainWindow", "Add Recipe Ingredient"))
         self.submit.setText(_translate("MainWindow", "Submit"))
         self.metric.setText(_translate("MainWindow", "Metric"))

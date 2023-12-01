@@ -49,7 +49,6 @@ class Ui_MainWindow(object):
         self.comboBox.setGeometry(QtCore.QRect(50, 190, 141, 41))
         self.comboBox.addItem("")
         self.comboBox.addItem("")
-        self.comboBox.addItem("")
         self.comboBox.setFont(font)
 
         self.newVal = QtWidgets.QTextEdit(self.frame)
@@ -69,7 +68,7 @@ class Ui_MainWindow(object):
         pantryItem = self.textEdit.toPlainText()
         newValue = self.newVal.toPlainText()
         listedType = self.comboBox.currentText()
-        x = rf.pantry.loc[rf.pantry["ItemName"] == pantryItem].all(1).any()
+        x = rf.pantry.loc[rf.pantry["ItemName"] == pantryItem].all().any()
         if (x == True) and (listedType == "Item Name"):
             rf.updatePantry("ItemName", pantryItem, newValue)
             msg.setText("The item name for the pantry item \"" + pantryItem + "\" has been changed to " +
@@ -81,12 +80,6 @@ class Ui_MainWindow(object):
                         newValue + ".")
             else:
                 msg.setText("The item quantity you entered was not valid. Please enter a number.")
-        elif (x == True) and (listedType == "Units"):
-            rf.updatePantry("Units", pantryItem, newValue)
-            msg.setText("The item name for the pantry item \"" + pantryItem + "\" has been changed to \"" +
-                        newValue + "\".\nPlease note that the only units that will be available to convert to "
-                                   "imperial or metric units are:\n\t1. oz (liquid)\n\t2. oz (dry)\n\t3. cups (liquid)"
-                                   "\n\t4. Tbsp\n\t5. tsp\n\t6. mL\n\t7. g\n\t8. dsp")
         else:
             msg.setText("The pantry item you entered was not found.")
         msg.exec_()
@@ -101,7 +94,6 @@ class Ui_MainWindow(object):
         self.submit.setText(_translate("MainWindow", "Submit"))
         self.comboBox.setItemText(0, _translate("MainWindow", "Item Name"))
         self.comboBox.setItemText(1, _translate("MainWindow", "Item Quantity"))
-        self.comboBox.setItemText(2, _translate("MainWindow", "Units"))
         self.newVal.setHtml(_translate("MainWindow", ""))
 
 

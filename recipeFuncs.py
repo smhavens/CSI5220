@@ -287,6 +287,16 @@ def updateRecipeIng(recipeName, itemName, type, newValue):
         allIngPublic.loc[update, type] = newValue
 
 
+def updateAllIngForOneRecipe(recipeName, type, newValue):
+    update = allIngPrivate[(allIngPrivate["RecipeName"] == recipeName)].index
+    allIngPrivate.loc[update, type] = newValue
+    if (
+            privateRecipes[
+                (privateRecipes["RecipeName"] == recipeName) & (privateRecipes["isPublic"] == True)]).empty == False:
+        update = allIngPublic[(allIngPublic["RecipeName"] == recipeName)].index
+        allIngPublic.loc[update, type] = newValue
+
+
 def searchByIngName(table, itemName):
     foundRecipes = table[table["ItemName"] == itemName]
     return foundRecipes
@@ -401,11 +411,6 @@ def groceryList():
     print(x)  # list of pantry ing == 0
 
 
-def xx(recipeName):
-    if (privateRecipes.loc[privateRecipes["RecipeName"] == recipeName]).all(1).any():
-        print("Yes")
-
-
 """Testing all pantry functions"""
 addPantryItem("cheese", 1, "oz (dry)", "Imperial")
 addPantryItem("bread", 4, "Slice", "Other")
@@ -475,7 +480,7 @@ addRecipeIng("omelette", "eggs", 2, "Each", "Other")
 # addRecipeToMealPlan(privateRecipes, allIngPrivate, "omelette")
 # addRecipeToMealPlan(publicRecipes, allIngPublic, "Grilled cheese")
 addRecipeToMealPlan(privateRecipes, allIngPrivate, "omelette")
-# viewAll(allIngMealPlan)
+viewAll(allIngMealPlan)
 # viewAll(mealPlan)
 # changeServings("Grilled cheese", 6)
 # unitChange("Grilled cheese", "Metric")

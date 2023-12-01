@@ -40,7 +40,7 @@ class Ui_MainWindow(object):
         self.textEdit.setGeometry(QtCore.QRect(370, 130, 301, 41))
         self.textEdit.setFont(font)
 
-        self.submit = QtWidgets.QPushButton(self.frame, clicked=self.submitxxxx)
+        self.submit = QtWidgets.QPushButton(self.frame, clicked=self.changeRecipe)
         self.submit.setGeometry(QtCore.QRect(570, 250, 161, 51))
         self.submit.setStyleSheet("background-color: #61d800;")
         self.submit.setFont(font)
@@ -55,13 +55,14 @@ class Ui_MainWindow(object):
 
         self.newVal = QtWidgets.QTextEdit(self.frame)
         self.newVal.setGeometry(QtCore.QRect(370, 190, 301, 41))
+        self.newVal.setFont(font)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def submitxxxx(self):
+    def changeRecipe(self):
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Information)
         msg.setWindowIcon(QtGui.QIcon('chef.png'))
@@ -69,27 +70,24 @@ class Ui_MainWindow(object):
         recipeName = self.textEdit.toPlainText()
         newValue = self.newVal.toPlainText()
         listedType = self.comboBox.currentText()
-        x = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all(1).any()
+        x = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all().any()
         if (x == True) and (listedType == "Recipe Name"):
+            rf.updateAllIngForOneRecipe(recipeName, "RecipeName", newValue)
             rf.updateRecipe("RecipeName", recipeName, newValue)
             msg.setText("The item name for the pantry item \"" + recipeName + "\" has been changed to \"" +
                         newValue + "\".")
-            # update ing
         elif (x == True) and (listedType == "Servings"):
             if newValue.isnumeric():
                 rf.updateRecipe(listedType, recipeName, newValue)
                 msg.setText("The item name for the pantry item \"" + recipeName + "\" has been changed to \"" +
-                            newValue + "\".")
-                # update ing
+                            newValue + "\".\nNote that this represents a change in the number of servings the recipe "
+                                       "truly makes and does not change the quantity of each ingredient")
             else:
                 msg.setText("The servings quantity you entered was not valid. Please enter a number.")
         elif (x == True) and ((listedType == "Instructions") or (listedType == "Description")):
             rf.updateRecipe(listedType, recipeName, newValue)
             msg.setText("The " + listedType.lower() + " for the recipe \"" + recipeName + "\" has been changed to \"" +
                         newValue + "\".")
-        elif (x == True) and (listedType == "Privacy"):
-            rf.updateRecipe(listedType, recipeName, newValue)
-            #
         else:
             msg.setText("The recipe you entered was not found in your private library.")
         msg.exec_()

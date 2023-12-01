@@ -21,7 +21,7 @@ class Ui_MainWindow(object):
         temp2 = rf.allIngPrivate
         self.searchWindow = QtWidgets.QMainWindow()
         self.searchUI = seachRecipeName.Ui_MainWindow()
-        self.searchUI.setupUiSearchRecipeName(self.searchWindow, temp)
+        self.searchUI.setupUiSearchRecipeName(self.searchWindow, temp2)
         self.searchWindow.hide()
 
         self.frame = QtWidgets.QFrame(self.centralwidget)
@@ -112,13 +112,13 @@ class Ui_MainWindow(object):
             rf.viewAll(temp2)
             self.searchUI.setupUiSearchRecipeName(self.searchWindow, temp2)
             self.searchWindow.show()
-
         elif (isPriv == True) & (searchBy == "Ingredient Name"):
             temp = rf.searchByIngName(rf.allIngPrivate, typeName)
             self.ingUI.setupUiBrowsePrivPub(self.ingWindow, temp)
             self.ingWindow.show()
         elif (isPriv == False) & (searchBy == "Recipe Name"):
             temp = rf.searchRecipesByName(rf.publicRecipes, typeName)
+            print(temp)
             self.searchUI.setupUiSearchRecipeName(self.searchWindow, temp)
             self.searchWindow.show()
         else:

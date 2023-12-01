@@ -72,7 +72,7 @@ class Ui_MainWindow(object):
         msg.setWindowTitle("Remove Recipe Info")
         recipeName = self.textEdit.toPlainText()
         x = self.privateCB.isChecked()
-        y = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all(1).any()
+        y = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all().any()
         if (x == True) and (y == True):
             rf.removeAllIngForOneRecipe(recipeName, x)
             rf.removePrivateRecipe(recipeName)

@@ -30,9 +30,9 @@ class Ui_MainWindow(object):
         self.titleLabel.setAlignment(QtCore.Qt.AlignCenter)
 
         self.tableWidget = QtWidgets.QTableWidget(self.frame)
-        self.tableWidget.setGeometry(QtCore.QRect(45, 105, 651, 201))
+        self.tableWidget.setGeometry(QtCore.QRect(110, 105, 521, 201))
 
-        self.tableWidget.setColumnCount(5)
+        self.tableWidget.setColumnCount(4)
         self.tableWidget.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         font.setPointSize(8)
@@ -49,7 +49,6 @@ class Ui_MainWindow(object):
         self.tableWidget.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
         item.setFont(font)
-        self.tableWidget.setHorizontalHeaderItem(4, item)
         self.tableWidget.setRowCount(len(temp.index)-1)
 
         rowPosition = self.tableWidget.rowCount()
@@ -61,7 +60,6 @@ class Ui_MainWindow(object):
             self.tableWidget.setItem(i, 1, QTableWidgetItem(x[1]))
             self.tableWidget.setItem(i, 2, QTableWidgetItem(str(x[2])))
             self.tableWidget.setItem(i, 3, QTableWidgetItem(x[3]))
-            self.tableWidget.setItem(i, 4, QTableWidgetItem(str(x[4])))
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -80,8 +78,6 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Servings"))
         item = self.tableWidget.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Description"))
-        item = self.tableWidget.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "Is Public"))
 
 
 if __name__ == "__main__":
