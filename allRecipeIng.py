@@ -57,7 +57,7 @@ class Ui_MainWindow(object):
 
         self.add = QtWidgets.QPushButton(self.frame, clicked=self.addRecipeIng)
         self.add.setGeometry(QtCore.QRect(50, 120, 191, 61))
-        self.add.setStyleSheet("background-color: #FFFFFF;")
+        self.add.setStyleSheet("background-color: #6eb4e0;")
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(10)
@@ -66,22 +66,22 @@ class Ui_MainWindow(object):
 
         self.removeIng = QtWidgets.QPushButton(self.frame, clicked=self.removeRecipeIng)
         self.removeIng.setGeometry(QtCore.QRect(280, 120, 191, 61))
-        self.removeIng.setStyleSheet("background-color: #FFFFFF;")
+        self.removeIng.setStyleSheet("background-color: #6eb4e0;")
         self.removeIng.setFont(font)
 
         self.modifyIng = QtWidgets.QPushButton(self.frame, clicked=self.modifyRecipeIng)
         self.modifyIng.setGeometry(QtCore.QRect(510, 120, 191, 61))
-        self.modifyIng.setStyleSheet("background-color: #FFFFFF;")
+        self.modifyIng.setStyleSheet("background-color: #6eb4e0;")
         self.modifyIng.setFont(font)
 
         self.search1 = QtWidgets.QPushButton(self.frame, clicked=self.browsePrivIng)
         self.search1.setGeometry(QtCore.QRect(160, 210, 191, 61))
-        self.search1.setStyleSheet("background-color: #FFFFFF;")
+        self.search1.setStyleSheet("background-color: #6eb4e0;")
         self.search1.setFont(font)
 
         self.search2 = QtWidgets.QPushButton(self.frame, clicked=self.browsePubIng)
         self.search2.setGeometry(QtCore.QRect(390, 210, 191, 61))
-        self.search2.setStyleSheet("background-color: #FFFFFF;")
+        self.search2.setStyleSheet("background-color: #6eb4e0;")
         self.search2.setFont(font)
 
         MainWindow.setCentralWidget(self.centralwidget)

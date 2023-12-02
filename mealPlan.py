@@ -142,11 +142,10 @@ class Ui_MainWindow(object):
         recipeName = self.textEditName.toPlainText()
         servings = self.textEditSev.toPlainText()
         rf.viewAll(rf.mealPlan)
-        x = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all().any()
-        print(rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all())
+        x = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all(1).any()
         print(x)
         if (x == True):
-            if (rf.mealPlan.loc[rf.mealPlan["RecipeName"] == recipeName]).all().any() == False:
+            if (rf.mealPlan.loc[rf.mealPlan["RecipeName"] == recipeName]).all(1).any() == False:
                 if (servings.isnumeric()):
                     rf.addRecipeToMealPlan(rf.privateRecipes, rf.allIngPrivate, recipeName)
                     rf.changeServings(recipeName, servings)

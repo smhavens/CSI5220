@@ -67,7 +67,7 @@ class Ui_MainWindow(object):
 
         self.add = QtWidgets.QPushButton(self.frame, clicked=self.addRecipe)
         self.add.setGeometry(QtCore.QRect(50, 120, 191, 61))
-        self.add.setStyleSheet("background-color: #FFFFFF;")
+        self.add.setStyleSheet("background-color: #6eb4e0;")
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(10)
@@ -76,27 +76,27 @@ class Ui_MainWindow(object):
 
         self.addIng = QtWidgets.QPushButton(self.frame, clicked=self.recipeIng)
         self.addIng.setGeometry(QtCore.QRect(280, 120, 191, 61))
-        self.addIng.setStyleSheet("background-color: #FFFFFF;")
+        self.addIng.setStyleSheet("background-color: #6eb4e0;")
         self.addIng.setFont(font)
 
         self.remove = QtWidgets.QPushButton(self.frame, clicked=self.remove)
         self.remove.setGeometry(QtCore.QRect(510, 120, 191, 61))
-        self.remove.setStyleSheet("background-color: #FFFFFF;")
+        self.remove.setStyleSheet("background-color: #6eb4e0;")
         self.remove.setFont(font)
 
         self.modify = QtWidgets.QPushButton(self.frame, clicked=self.modify)
         self.modify.setGeometry(QtCore.QRect(50, 210, 191, 61))
-        self.modify.setStyleSheet("background-color: #FFFFFF;")
+        self.modify.setStyleSheet("background-color: #6eb4e0;")
         self.modify.setFont(font)
 
         self.search1 = QtWidgets.QPushButton(self.frame, clicked=self.browsePriv)
         self.search1.setGeometry(QtCore.QRect(280, 210, 191, 61))
-        self.search1.setStyleSheet("background-color: #FFFFFF;")
+        self.search1.setStyleSheet("background-color: #6eb4e0;")
         self.search1.setFont(font)
 
         self.search2 = QtWidgets.QPushButton(self.frame, clicked=self.browsePub)
         self.search2.setGeometry(QtCore.QRect(510, 210, 191, 61))
-        self.search2.setStyleSheet("background-color: #FFFFFF;")
+        self.search2.setStyleSheet("background-color: #6eb4e0;")
         self.search2.setFont(font)
 
         MainWindow.setCentralWidget(self.centralwidget)

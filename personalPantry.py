@@ -55,7 +55,7 @@ class Ui_MainWindow(object):
 
         self.add = QtWidgets.QPushButton(self.frame, clicked=self.addPantry)
         self.add.setGeometry(QtCore.QRect(80, 110, 251, 71))
-        self.add.setStyleSheet("background-color: #FFFFFF;")
+        self.add.setStyleSheet("background-color: #6eb4e0;")
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(12)
@@ -64,17 +64,17 @@ class Ui_MainWindow(object):
 
         self.remove = QtWidgets.QPushButton(self.frame, clicked=self.remove)
         self.remove.setGeometry(QtCore.QRect(420, 110, 251, 71))
-        self.remove.setStyleSheet("background-color: #FFFFFF;")
+        self.remove.setStyleSheet("background-color: #6eb4e0;")
         self.remove.setFont(font)
 
         self.modify = QtWidgets.QPushButton(self.frame, clicked=self.modify)
         self.modify.setGeometry(QtCore.QRect(80, 210, 251, 71))
-        self.modify.setStyleSheet("background-color: #FFFFFF;")
+        self.modify.setStyleSheet("background-color: #6eb4e0;")
         self.modify.setFont(font)
 
         self.browse = QtWidgets.QPushButton(self.frame, clicked=self.browse)
         self.browse.setGeometry(QtCore.QRect(420, 210, 251, 71))
-        self.browse.setStyleSheet("background-color: #FFFFFF;")
+        self.browse.setStyleSheet("background-color: #6eb4e0;")
         self.browse.setFont(font)
         MainWindow.setCentralWidget(self.centralwidget)
 

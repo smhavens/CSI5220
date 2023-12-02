@@ -31,7 +31,7 @@ class Ui_MainWindow(object):
 
         self.pantry = QtWidgets.QPushButton(self.frame, clicked=self.pantry)
         self.pantry.setGeometry(QtCore.QRect(420, 110, 251, 71))
-        self.pantry.setStyleSheet("background-color: #FFFFFF;")
+        self.pantry.setStyleSheet("background-color: #6eb4e0;")
         font = QtGui.QFont()
         font.setFamily("Times New Roman")
         font.setPointSize(12)
@@ -40,19 +40,19 @@ class Ui_MainWindow(object):
 
         self.recipes = QtWidgets.QPushButton(self.frame, clicked=self.recipeLib)
         self.recipes.setGeometry(QtCore.QRect(80, 110, 251, 71))
-        self.recipes.setStyleSheet("background-color: #FFFFFF;")
+        self.recipes.setStyleSheet("background-color: #6eb4e0;")
         self.recipes.setFont(font)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.search = QtWidgets.QPushButton(self.frame, clicked=self.search)
-        self.search.setGeometry(QtCore.QRect(80, 210, 251, 71))
-        self.search.setStyleSheet("background-color: #FFFFFF;")
+        self.search.setGeometry(QtCore.QRect(251, 210, 251, 71))
+        self.search.setStyleSheet("background-color: #6eb4e0;")
         self.search.setFont(font)
 
-        self.mealPlan = QtWidgets.QPushButton(self.frame, clicked=self.mealPlan)
-        self.mealPlan.setGeometry(QtCore.QRect(420, 210, 251, 71))
-        self.mealPlan.setStyleSheet("background-color: #FFFFFF;")
-        self.mealPlan.setFont(font)
+        # self.mealPlan = QtWidgets.QPushButton(self.frame, clicked=self.mealPlan)
+        # self.mealPlan.setGeometry(QtCore.QRect(420, 210, 251, 71))
+        # self.mealPlan.setStyleSheet("background-color: #FFFFFF;")
+        # self.mealPlan.setFont(font)
 
         self.namesLabel = QtWidgets.QLabel(self.frame)
         self.namesLabel.setGeometry(QtCore.QRect(30, 295, 691, 30))
@@ -91,13 +91,13 @@ class Ui_MainWindow(object):
         # MainWindow.close()
         self.searchWindow.show()
 
-    def mealPlan(self):
-        import mealPlan
-        self.mealPlanWindow = QtWidgets.QMainWindow()
-        self.mealPlanUI = mealPlan.Ui_MainWindow()
-        self.mealPlanUI.setupUiMP(self.mealPlanWindow)
-        # MainWindow.close()
-        self.mealPlanWindow.show()
+    # def mealPlan(self):
+    #     import mealPlan
+    #     self.mealPlanWindow = QtWidgets.QMainWindow()
+    #     self.mealPlanUI = mealPlan.Ui_MainWindow()
+    #     self.mealPlanUI.setupUiMP(self.mealPlanWindow)
+    #     # MainWindow.close()
+    #     self.mealPlanWindow.show()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -105,7 +105,7 @@ class Ui_MainWindow(object):
         self.titleLabel.setText(_translate("MainWindow", "Welcome to Personal Cookbook"))
         self.pantry.setText(_translate("MainWindow", "Personal Pantry"))
         self.search.setText(_translate("MainWindow", "Search Recipes"))
-        self.mealPlan.setText(_translate("MainWindow", "Create Meal Plan"))
+        # self.mealPlan.setText(_translate("MainWindow", "Create Meal Plan"))
         self.recipes.setText(_translate("MainWindow", "Recipe Libraries"))
         self.namesLabel.setText(_translate("MainWindow", "Created by: Denise Rauschendorfer & Mila Havens"))
 
