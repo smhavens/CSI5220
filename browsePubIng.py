@@ -71,7 +71,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/Recipe Library/ Ingredients/ Browse"))
-        self.titleLabel.setText(_translate("MainWindow", "Browse Your Recipes"))
+        self.titleLabel.setText(_translate("MainWindow", "Browse Your Recipe Ingredients"))
         item = self.tableWidget.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Recipe Name"))
         item = self.tableWidget.horizontalHeaderItem(1)

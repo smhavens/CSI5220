@@ -40,7 +40,7 @@ class Ui_MainWindow(object):
         self.textEdit.setGeometry(QtCore.QRect(370, 130, 301, 41))
         self.textEdit.setFont(font)
 
-        self.submit = QtWidgets.QPushButton(self.frame, clicked=self.submitRemPantry)
+        self.submit = QtWidgets.QPushButton(self.frame, clicked=self.submitRemoveRecipeIng)
         self.submit.setGeometry(QtCore.QRect(570, 255, 161, 51))
         self.submit.setStyleSheet("background-color: #61d800;")
         self.submit.setFont(font)
@@ -58,16 +58,20 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def submitRemPantry(self):
+    def submitRemoveRecipeIng(self):
+        # creating notification message
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Information)
         msg.setWindowIcon(QtGui.QIcon('chef.png'))
         msg.setWindowTitle("Remove Ingredient Info")
         recipeName = self.textEdit.toPlainText()
         recipeIngredient = self.textEdit2.toPlainText()
-        y = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all().any()
+        # checking if recipe exists in the user's private recipe library
+        y = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all(1).any()
         if (y == True):
-            if (rf.allIngPublic.loc[(rf.allIngPublic["RecipeName"] == recipeName) & (rf.allIngPublic["ItemName"] == recipeIngredient)]).all().any() == True:
+            # checking if the ingredient entered is listed for this recipe
+            if (rf.allIngPublic.loc[(rf.allIngPublic["RecipeName"] == recipeName) &
+                                    (rf.allIngPublic["ItemName"] == recipeIngredient)]).all(1).any() == True:
                 rf.removeRecipeIng(recipeName, recipeIngredient)
                 msg.setText("The ingredient \"" + recipeIngredient + "\" has been removed from \"" + recipeName + "\".")
             else:

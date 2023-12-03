@@ -3,11 +3,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUiHomePage(self, MainWindow):
+        # specifying UI screen size
         MainWindow.resize(800, 370)
+        # personalizing UI screen
         MainWindow.setStyleSheet("background-color: #123456;")
         MainWindow.setWindowIcon(QtGui.QIcon('chef.png'))
+        # creating UI screen
         self.centralwidget = QtWidgets.QWidget(MainWindow)
-
+        # adding a frame to the UI screen
         self.frame = QtWidgets.QFrame(self.centralwidget)
         self.frame.setGeometry(QtCore.QRect(20, 20, 751, 331))
         self.frame.setStyleSheet("background-color: white;")

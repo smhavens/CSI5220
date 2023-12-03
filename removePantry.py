@@ -68,7 +68,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Personal Cookbook/Personal Pantry/ Remove"))
         self.titleLabel.setText(_translate("MainWindow", "Remove a Pantry Item"))
-        self.recipeName.setText(_translate("MainWindow", "Recipe Name:"))
+        self.recipeName.setText(_translate("MainWindow", "Pantry Item Name:"))
         self.textEdit.setHtml(_translate("MainWindow", ""))
         self.submit.setText(_translate("MainWindow", "Submit"))
 

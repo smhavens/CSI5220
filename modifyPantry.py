@@ -68,7 +68,7 @@ class Ui_MainWindow(object):
         pantryItem = self.textEdit.toPlainText()
         newValue = self.newVal.toPlainText()
         listedType = self.comboBox.currentText()
-        x = rf.pantry.loc[rf.pantry["ItemName"] == pantryItem].all().any()
+        x = rf.pantry.loc[rf.pantry["ItemName"] == pantryItem].all(1).any()
         if (x == True) and (listedType == "Item Name"):
             rf.updatePantry("ItemName", pantryItem, newValue)
             msg.setText("The item name for the pantry item \"" + pantryItem + "\" has been changed to " +

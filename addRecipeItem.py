@@ -111,7 +111,7 @@ class Ui_MainWindow(object):
         x = rf.privateRecipes.loc[rf.privateRecipes["RecipeName"] == recipeName].all().any()
         # y = rf.allIngPrivate.loc[rf.allIngPrivate["ItemName"] == itemName].all().any()
         # (privateRecipes["RecipeName"] == recipeName) & (privateRecipes["isPublic"] == True)
-        y = rf.allIngPrivate.loc[(rf.allIngPrivate["RecipeName"] == recipeName) & (rf.allIngPrivate["ItemName"] == itemName)].all().any()
+        y = rf.allIngPrivate.loc[(rf.allIngPrivate["RecipeName"] == recipeName) & (rf.allIngPrivate["ItemName"] == itemName)].all(1).any()
         print(y)
         if (x == True):
             if (y == False):

@@ -112,7 +112,6 @@ class Ui_MainWindow(object):
                         msg.setText("The units you entered are not in our supported list of valid imperial units. "
                                     "Please convert this item to one of the following unit measurements:"
                                     "\n\t1. oz (liquid)\n\t2. oz (dry)\n\t3. cups (liquid)\n\t4. Tbsp\n\t5. tsp")
-
                 elif (isMetric == True):
                     if (itemUnits in validMetric):
                         rf.addPantryItem(itemName, itemQty, itemUnits, "Metric")

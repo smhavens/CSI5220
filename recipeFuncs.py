@@ -168,14 +168,17 @@ def updatePantry(type, itemName, newValue):
 
 
 def changePantryUnitType(itemName):
+    # reset index and find all matching pantry items
     pantry.reset_index(drop=True, inplace=True)
     currentType = pantry.loc[pantry["ItemName"] == itemName, "UnitType"].values
+    # change imperial units to metric
     if currentType == "Imperial":
         update = pantry["ItemName"] == itemName
         pantry.loc[update, "UnitType"] = "Metric"
         x = pantry.loc[update, "Units"].values.tolist()
         pantry.loc[update, "ItemQty"] = pantry.loc[update, "ItemQty"] * unitValsDict[x[0]]
         pantry.loc[update, "Units"] = unitNameDict[x[0]]
+    # change metric units to imperial
     elif currentType == "Metric":
         update = pantry["ItemName"] == itemName
         pantry.loc[update, "UnitType"] = "Imperial"
@@ -184,6 +187,7 @@ def changePantryUnitType(itemName):
         pantry.loc[update, "Units"] = unitNameDict[x[0]]
         x = pantry.loc[update, "Units"].values.tolist()
         y = pantry.loc[update, "ItemQty"].values.tolist()
+        # simplifying units from tsp to Tbsp and oz to cups when applicable
         if (x[0] == "tsp") and (y[0] % 3 == 0):
             y[0] /= 3
             pantry.loc[update, "ItemQty"] = y[0]
@@ -200,9 +204,11 @@ def changePantryUnitType(itemName):
 
 
 def addPrivateRecipe(title, instructions, servings, desc, ispublic):
+    # checking if a recipe with that name already exists
     if (privateRecipes["RecipeName"] == title).any():
         print("This recipe is already in your library. Please choose another name.")
     else:
+        # appending a new recipe to the table
         privateRecipes.loc[-1] = [title, instructions, servings, desc, ispublic]
         privateRecipes.index = privateRecipes.index + 1
         if ispublic == True:
@@ -211,14 +217,17 @@ def addPrivateRecipe(title, instructions, servings, desc, ispublic):
 
 
 def removePublicRecipe(recipeName):
+    # checking to see if the recipe given is publicly available
     if (
             privateRecipes[
                 (privateRecipes["RecipeName"] == recipeName) & (privateRecipes["isPublic"] == True)]).empty == False:
+        # removing the recipe and updating table index
         privateRecipes.loc[privateRecipes["RecipeName"] == recipeName, "isPublic"] = False
         publicRecipes.drop(publicRecipes[publicRecipes["RecipeName"] == recipeName].index, inplace=True)
 
 
 def removePrivateRecipe(recipeName):
+    # removing the recipe and updating table index
     removePublicRecipe(recipeName)
     privateRecipes.drop(privateRecipes[privateRecipes["RecipeName"] == recipeName].index, inplace=True)
 
@@ -229,8 +238,10 @@ def searchRecipesByName(table, recipeName):
 
 
 def updateRecipe(type, recipeName, newValue):
+    # finding entry to update
     update = privateRecipes["RecipeName"] == recipeName
     privateRecipes.loc[update, type] = newValue
+    # updating value if in both the public and private library when applicable
     if (
             privateRecipes[
                 (privateRecipes["RecipeName"] == recipeName) & (privateRecipes["isPublic"] == True)]).empty == False:
@@ -257,12 +268,15 @@ def addRecipeIng(recipeName, food, qty, units, unitsType):
 
 
 def removeRecipeIng(recipeName, itemName):
+    # checking if the listed ingredient is in both the public and private libraries
     if (
             privateRecipes[
                 (privateRecipes["RecipeName"] == recipeName) & (privateRecipes["isPublic"] == True)]).empty == False:
+        # removing the ingredient and updating the public table indices
         allIngPublic.drop(
             allIngPublic[(allIngPublic["RecipeName"] == recipeName) & (allIngPublic["ItemName"] == itemName)].index,
             inplace=True)
+    # removing the ingredient and updating the private table indices
     allIngPrivate.drop(
         allIngPrivate[(allIngPrivate["RecipeName"] == recipeName) & (allIngPrivate["ItemName"] == itemName)].index,
         inplace=True)
